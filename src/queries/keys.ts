@@ -1,3 +1,4 @@
+import type { DarfToUpdateI } from "@/interfaces/darf.interface"
 import type { OrderCreate, OrderPresenter, OrderToUpdate } from "@/interfaces/order.interface"
 import type { TradeModality } from "@/interfaces/orderBreakdown.interface"
 import type { RecommendedAssetCreate, RecommendedAssetUpdatePlannedPercentage } from "@/interfaces/recommendedAsset.interface"
@@ -38,4 +39,13 @@ export const taxesKeys = {
 export const planningKeys = {
     all: ["planning"],
     list: (userId :string, investment :number) => [...planningKeys.all, "planningInfo", userId, investment]
+}
+
+export const darfKeys = {
+    all: ["darf"],
+    list: (userId :string) => [...darfKeys.all, "listDarfs", userId],
+    create: (userId :string, selectedYear :number, selectedMonth :number, tradeModality :TradeModality) => [...darfKeys.all, 'create', userId, selectedYear, selectedMonth, tradeModality] as const,
+    delete: (id :string) => [...darfKeys.all, "delete", id] as const,
+    update: (darfToUpdate :DarfToUpdateI)=> [...darfKeys.all, "update", darfToUpdate.id] as const,
+    updatePagamento: (id :string)=> [...darfKeys.all, "updatePagamento", id] as const
 }

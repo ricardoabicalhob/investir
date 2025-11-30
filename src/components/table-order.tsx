@@ -2,7 +2,7 @@ import type { OrderPresenter } from "@/interfaces/order.interface"
 import { MoedaEmReal } from "./moeda-percentual"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { showErrorToast, showSuccesToast } from "@/utils/toasts"
-import { useDeleteOrder } from "@/queries/orders"
+import { useDeleteOrder } from "@/queries/order"
 import { MiniLoadingSpinner } from "./mini-loading-spinner"
 import { DialogInfoOrder } from "./dialog-info-order"
 import { DialogUpdateOrder } from "./dialog-update-order"
@@ -24,8 +24,8 @@ export function TableOrders({
 
     function handelDeleteOrder(ordem :OrderPresenter) {
         deleteOrder(ordem, {
-            onError: (errorCreateOrder) => {
-                showErrorToast(errorCreateOrder.message)
+            onError: (errorDeleteOrder) => {
+                showErrorToast(errorDeleteOrder.message)
             },
             onSuccess: ()=> {
                 showSuccesToast(`Ordem excluída!`)
@@ -54,36 +54,36 @@ export function TableOrders({
             <TableBody>
                 {orderListFiltered && orderListFiltered.map(ordem => (
                     <TableRow key={ordem.id}>
-                        <TableCell className="text-my-foreground-secondary">{new Date(ordem.orderDate).toLocaleDateString("pt-BR")}</TableCell>
+                        <TableCell className="text-my-foreground-secondary tabular-nums">{new Date(ordem.orderDate).toLocaleDateString("pt-BR")}</TableCell>
                         <TableCell className="text-my-foreground-secondary">{ordem.assetType}</TableCell>
                         <TableCell className="text-my-foreground-secondary">
                             { !logoUrlPorAtivos[ordem.symbol] && <MiniLoadingSpinner isLoading={!!logoUrlPorAtivos} size="sm" className="text-lime-base/50" /> }
                             { logoUrlPorAtivos[ordem.symbol] && <img src={logoUrlPorAtivos[ordem.symbol]} alt="" className='rounded-sm w-5 h-5 justify-self-center' />}
                         </TableCell>
-                        <TableCell className="text-my-foreground-secondary text-center">{ordem.symbol}</TableCell>
-                        <TableCell className="text-my-foreground-secondary text-right">{ordem.amount}</TableCell>
+                        <TableCell className="text-my-foreground-secondary text-center tabular-nums">{ordem.symbol}</TableCell>
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ordem.amount}</TableCell>
                         
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={ordem.unitPrice}/>
                         </TableCell>
                         
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={ordem.fees || 0}/>
                         </TableCell>
                         
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={ordem.taxes || 0}/>
                         </TableCell>
 
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={ordem.grossValue}/>
                         </TableCell>
 
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={ordem.netValue}/>
                         </TableCell>
 
-                        <TableCell className="text-my-foreground-secondary text-right">
+                        <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                             <MoedaEmReal centavos={((((ordem.fees || 0) + (ordem.taxes || 0)) / ordem.amount) + ordem.unitPrice)}/>
                         </TableCell>
 

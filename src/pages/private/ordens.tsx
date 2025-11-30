@@ -5,7 +5,7 @@ import { MoedaEmReal } from "@/components/moeda-percentual";
 import { TableOrders } from "@/components/table-order";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/contexts/auth.context";
-import { useOrders } from "@/queries/orders";
+import { useOrders } from "@/queries/order";
 import { usePortifolio } from "@/queries/portifolio";
 import { filtarListaDeOrdens } from "@/utils/filters.utils";
 import { Search } from "lucide-react";

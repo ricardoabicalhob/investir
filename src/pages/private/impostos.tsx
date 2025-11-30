@@ -4,15 +4,22 @@ import { Display, DisplayBody, DisplayContent, DisplayItem, DisplayHeader, Displ
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { MoedaEmReal } from "@/components/moeda-percentual"
 import { TableTaxes } from "@/components/table-taxes"
+import { Button } from "@/components/ui/button"
 import { AuthContext } from "@/contexts/auth.context"
 import { SystemContext } from "@/contexts/system.context"
 import type { TaxesI } from "@/interfaces/taxes.interface"
 import { cn } from "@/lib/utils"
+import { useCreateDarf } from "@/queries/darf"
 import { useTaxes } from "@/queries/taxes"
-import { showErrorToast } from "@/utils/toasts"
+import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import { useContext, useState } from "react"
 
 export default function Impostos() {
+
+    const modalities = {
+        "swing_trade": "Swing Trade",
+        "day_trade": "Day Trade"
+    }
 
     const { loginResponse } = useContext(AuthContext)
     const { tradeModality, setTradeModality } = useContext(SystemContext)
@@ -23,6 +30,7 @@ export default function Impostos() {
     const selectedYear = selectedDate ? selectedDate.getFullYear() : undefined
     
     const { data: taxesInfo, isLoading: isLoadingTaxesInfo, isError: isErrorTaxesInfo } = useTaxes(userId, selectedYear, selectedMonth, tradeModality)
+    const { mutate: createDarf } = useCreateDarf()
 
     const receitaBrutaTotalEmCentavos = taxesInfo?.receitaBrutaTotalComVendaEmCentavos ?? 0
     const custoAquisicaoTotalEmCentavos = taxesInfo?.custoDeAquisicaoTotalDosAtivosEmCentavos ?? 0
@@ -74,10 +82,29 @@ export default function Impostos() {
         }
     ]
 
+    const handleCreateDarf = () => {
+        if(!userId || !selectedYear || !selectedMonth || !tradeModality) {
+            throw new Error("Preencha todos os campos!")
+        }
+
+        createDarf({userId, selectedYear, selectedMonth, tradeModality}, {
+            onSuccess: (darfCreated) => {
+                showSuccesToast(`DARF de ${modalities[darfCreated.modality]} para o período de apuração ${darfCreated.periodoApuracao.replace('-', '/')} criada!`)
+            },
+            onError: (errorCreateDarf) => {
+                showErrorToast(errorCreateDarf.message)
+            }
+        })
+    }
+
     const isLoading = isLoadingTaxesInfo
     const isError = isErrorTaxesInfo
 
-    if(isError) return showErrorToast("Falha no carregamento das informações da BRAPI")
+    if(isError) {
+        return(
+            showErrorToast("Falha no carregamento das informações da BRAPI")
+        )
+    }
 
     return(
         <div className="flex gap-3 flex-1 w-full h-full text-my-foreground-secondary p-3">
@@ -135,6 +162,18 @@ export default function Impostos() {
                     </DisplayBody>
                 </Display>
             }
+            
+            <Button
+                id="gerar-darf"
+                variant="outline"
+                className={cn(
+                    "w-full justify-center focus:!ring-[1px] ml-0.5 text-my-foreground-secondary bg-my-background-secondary hover:bg-my-background-secondary hover:text-my-foreground-secondary border-0 cursor-pointer",
+                )}
+                onClick={handleCreateDarf}
+            >
+                Gerar DARF
+            </Button>
+
             </div>
             <div className="flex flex-col grow w-full overflow-y-auto overflow-x-hidden border-[#29292E] border rounded-md p-2 custom-scrollbar-div">             
                 <span className="text-xl font-semibold px-4">Ativos consolidados</span>

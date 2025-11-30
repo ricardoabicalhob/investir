@@ -32,9 +32,21 @@ Para cada ativo da carteira, o sistema exibe:
 ### 🧮 Cálculo Automático de Imposto de Renda
 - Cálculo automático do **ganho líquido** nas vendas.
 - Considera histórico de compra e venda.
-- Calcula **IR a pagar** segundo regras da Receita Federal:
-  - Isenção de vendas abaixo de R$ 20.000 no mês.
-  - Descontos de taxas e prejuízos acumulados.
+- Calcula **IR a pagar** segundo regras da Receita Federal para Day Trade e Swing Trade.
+- Isenção automática em operações comuns (Swing Trade) quando aplicável.
+- Cálculo de **IRRF (dedo-duro)**.
+- Compensação automática de **prejuízos acumulados**.
+
+#### 📊 Tabela de Tributação por Modalidade
+
+Cada modalidade possui regras próprias de tributação, alíquotas e compensação de prejuízos:
+
+| Característica            | Day Trade                                | Swing Trade (Operações Comuns)                     |
+|---------------------------|--------------------------------------------|----------------------------------------------------|
+| **Alíquota de IR**        | 20% sobre o lucro líquido mensal.         | 15% sobre o lucro líquido mensal.                  |
+| **Isenção (R$ 20 mil)**   | Não há (qualquer lucro é tributável).     | Sim, para vendas totais abaixo de R$ 20.000 no mês.|
+| **Compensação de Prejuízos** | Apenas com lucros futuros de day trade. | Apenas com lucros futuros de swing trade.          |
+| **IRRF (Dedo-duro)**      | 1% sobre o valor da venda.                | 0,005% sobre o valor da venda.                     |
 
 ---
 
@@ -52,7 +64,12 @@ Para cada ativo da carteira, o sistema exibe:
 ---
 
 ## 📷 Capturas de Tela (opcional)
-> Adicione aqui prints quando desejar.
+
+![Tela inicial](<./src/docs//images/Captura de tela 2025-11-30 015730.png>)
+![Minha carteira](<./src/docs/images/Captura de tela 2025-11-30 015710.png>)
+![Minhas ordens](<./src/docs/images/Captura de tela 2025-11-30 015743.png>)
+![Rebalanceamento da carteira](<./src/docs/images/Captura de tela 2025-11-30 015800.png>)
+![Imposto de renda](./src/docs/images/image.png)
 
 ---
 

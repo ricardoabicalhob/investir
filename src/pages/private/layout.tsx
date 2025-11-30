@@ -38,7 +38,7 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
   const navigateToMyOrders = () => navigate('/carteira/ordens');
   const navigateToRebalanceamento = () => navigate('/carteira/rebalanceamento');
   const navigateToImpostos = () => navigate('/carteira/impostos');
-  // const navigateToEquipamentos = () => navigate('/orquestra/equipamentos');
+  const navigateToDarfs = () => navigate('/carteira/darfs');
 
   return (
     <div className='flex flex-col w-full h-full bg-my-background overflow-y-auto custom-scrollbar'>
@@ -152,19 +152,19 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
                     isSelected={location.pathname === '/carteira/impostos'}
                     colorIconWhenSelected={colorIconWhenSelected}
                     text="Imposto de renda" 
-                    icon="paid" 
+                    icon="pets" 
                     onClick={navigateToImpostos}
                   />
 
-                  {/* <AppSidebarButton 
+                  <AppSidebarButton 
                     className="text-my-foreground" 
                     isExpanded={expandedSidebar}
-                    isSelected={location.pathname === '/orquestra/equipamentos'}
+                    isSelected={location.pathname === '/carteira/darfs'}
                     colorIconWhenSelected={colorIconWhenSelected}
-                    text="Equipamentos" 
-                    icon="add_notes" 
-                    onClick={navigateToEquipamentos}
-                  /> */}
+                    text="Minhas DARFs" 
+                    icon="stacks"  //receipt
+                    onClick={navigateToDarfs}
+                  />
                 </AppSidebarGroupButtons>
                 
               </AppSidebar>

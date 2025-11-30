@@ -34,15 +34,15 @@ export function TableTaxes({
                                     <span className="material-symbols-outlined text-lime-base">finance_mode</span>
                                 </div> }
                             </TableCell>
-                            <TableCell className="text-my-foreground-secondary text-left">{ativo.symbol}</TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right">{ativo.quantidadeTotal}</TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.totalDeTaxasEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.totalIRRFEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.receitaBrutaTotalEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.receitaLiquidaOperacionalTotalEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.receitaLiquidaContabilTotalEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.custoDeAquisicaoTotalEmCentavos} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-right"><MoedaEmReal centavos={ativo.ganhoDeCapitalTotalEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-left tabular-nums">{ativo.symbol}</TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ativo.quantidadeTotal}</TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.totalDeTaxasEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.totalIRRFEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.receitaBrutaTotalEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.receitaLiquidaOperacionalTotalEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.receitaLiquidaContabilTotalEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.custoDeAquisicaoTotalEmCentavos} /></TableCell>
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={ativo.ganhoDeCapitalTotalEmCentavos} /></TableCell>
                         </TableRow>
                 ))}
             </TableBody>

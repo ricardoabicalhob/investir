@@ -22,9 +22,9 @@ import HomePage from './pages/private/home'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './services/queryClient'
 import Rebalanceamento from './pages/private/rebalanceamento'
-import Impostos from './pages/private/impostos'
-import EquipamentoPage from './pages/private/equipamento'
+import DarfsPage from './pages/private/darfs'
 import MinhaCarteiraDeAtivos from './pages/private/carteira'
+import Impostos from './pages/private/impostos'
 
 const basename = import.meta.env.BASE_URL
 
@@ -92,7 +92,7 @@ function App() {
             { path: '/carteira/ordens', element: <MyOrders /> },
             { path: '/carteira/rebalanceamento', element: <Rebalanceamento /> },
             { path: '/carteira/impostos', element: <Impostos /> },
-            { path: '/orquestra/equipamentos', element: <EquipamentoPage /> }
+            { path: '/carteira/darfs', element: <DarfsPage /> }
           ],
         },
       ],

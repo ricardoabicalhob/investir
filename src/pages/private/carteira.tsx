@@ -3,7 +3,7 @@ import { Display, DisplayBody, DisplayContent, DisplayHeader, DisplayItem, Displ
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { MoedaEmReal } from "@/components/moeda-percentual"
 import { AuthContext } from "@/contexts/auth.context"
-import { useAssets } from "@/queries/assets"
+import { useAssets } from "@/queries/asset"
 import { usePortifolio } from "@/queries/portifolio"
 import { showErrorToast } from "@/utils/toasts"
 import { useContext } from "react"
@@ -72,7 +72,7 @@ export default function MinhaCarteiraDeAtivos() {
                     </div>
             }
             
-            <div className="flex gap-3 justify-start flex-wrap w-full">
+            <div className="flex gap-3 justify-start flex-wrap w-full overflow-y-auto custom-scrollbar-div">
                 {ativos?.map(ativo => (
                     <CardAsset
                         key={ativo.assetSymbol}

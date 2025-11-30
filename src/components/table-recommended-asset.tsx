@@ -47,30 +47,30 @@ export function TableRecommendedAsset({
                                     {ativo.logoUrl && <img src={ativo.logoUrl} alt="" className='rounded-sm w-6 h-6 justify-self-center' />}
                                 </TableCell>
                                 
-                                <TableCell className="text-my-foreground-secondary text-center">
+                                <TableCell className="text-my-foreground-secondary text-center tabular-nums">
                                     { ativo.symbol ?? '-' }
                                 </TableCell>
                             
-                                <TableCell className="text-my-foreground-secondary text-right">
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                                     { ativo.percentualAtual ?? "" }
                                 </TableCell>
 
-                                <TableCell className="text-my-foreground-secondary text-right">
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                                     <MoedaEmReal
                                         centavos={ ativo.posicaoAtualEmCentavos ?? 0 }
                                     />
                                 </TableCell>
 
-                                <TableCell className="text-my-foreground-secondary text-right">
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                                         {ativo.percentualPlanjado ?? "-"}
                                 </TableCell>
 
-                                <TableCell className="text-my-foreground-secondary text-right">
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                                     <MoedaEmReal
                                         centavos={ ativo.posicaoPlajadaEmCentavos ?? 0 }
                                     />
                                 </TableCell>
-                                <TableCell className="text-my-foreground-secondary text-right">
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums">
                                     <MoedaEmReal
                                         centavos={ ativo.valorDeAjusteEmCentavos ?? 0 }
                                     />

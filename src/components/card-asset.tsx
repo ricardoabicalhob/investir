@@ -14,7 +14,7 @@ function CardAsset({ ativo } :CardAssetProps) {
     if(ativo.quantidadeAtualDeAcoes === 0) return null
 
     return(
-        <div className="flex flex-col h-fit min-w-[290px] max-[600px]:max-w-full max-w-[24%] grow gap-3 bg-my-background-secondary rounded-md p-3 border border-[#29292E]">
+        <div className="flex flex-col h-fit min-w-[290px] max-[600px]:max-w-full max-w-[24%] grow gap-3 bg-my-background-secondary rounded-md px-3 py-2.5 border border-[#29292E]">
             <div className="flex items-center gap-3">
                 <img src={ativo.logoUrl} alt="" className='rounded-sm w-10 h-10' />
                 <div className="flex flex-col w-full gap-2">

@@ -167,7 +167,7 @@ input:-webkit-autofill {
   --green-base: oklch(72.3% 0.219 149.579);
   --red-destructive: oklch(50.5% 0.213 27.518);
   --my-background: oklch(6.4% 0.005 272.9);
-  --my-background-secondary: rgb(26, 26, 30);
+  --my-background-secondary: rgb(38, 38, 42);
   --my-foreground: oklch(55.1% 0.027 264.364);
   --my-foreground-accent: oklch(100% 0 0);
   --my-foreground-secondary: oklch(80.5% 0.007 273.7);
@@ -213,5 +213,20 @@ input:-webkit-autofill {
       border-radius: 4px; /* Arredondamento, se desejar */
       cursor: grab;
     }
+  }
+}
+
+@layer utilities {
+  .datepicker-icon {
+    @apply opacity-60 cursor-pointer;
+  }
+
+  .datepicker-icon-invert-white::-webkit-calendar-picker-indicator {
+    filter: invert(70%) sepia(90%) saturate(400%) hue-rotate(70deg) brightness(95%) contrast(100%)
+  }
+
+  .datepicker-icon-hide::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    display: none;
   }
 }
