@@ -131,20 +131,17 @@ export default function RegisterPage() {
         <div className="flex h-screen items-stretch">
             <div className="flex-1 bg-cover bg-center max-[1100px]:hidden bg-linear-150 from-lime-base to-white">
                 <div className="flex gap-2 w-full h-full items-center justify-center">
-                    <span className="material-symbols-outlined text-my-background-secondary" style={{fontSize: 64, fontWeight: 700}}>finance_mode</span>
-                    {/* <img src={orquestraLogo} alt="orquestra-logo-grande" loading="lazy" width={300} height={20} decoding="async" style={{color: "transparent", opacity: .4 }} /> */}
-                    <span className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>InvestIR</span>
-                    {/* <span className="font-normal text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>TEAM FLOW</span> */}
+                    {/* <span className="material-symbols-outlined text-my-background-secondary" style={{fontSize: 64, fontWeight: 700}}>finance_mode</span> */}
+                    <p className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>Invest<span className="text-lime-base bg-my-background rounded-full text-center pl-1 border border-my-foreground/50">IR</span></p>
                 </div>
             </div>
 
             <div className="flex-[560px_1_0] min-[1101px]:max-w-[560px] max-[1100px]:flex-1">
                 <div className="h-[100dvh] bg-my-background-secondary p-20 overflow-auto custom-scrollbar max-[1100px]:min-h-[calc(100dvh-16px)] max-[1100px]:p-7">
                     <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                            <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span>
-                            {/* <img className="z-50" src={orquestraLogo} alt="orquestra-logo" loading="lazy" width={40} height={20} decoding="async" style={{color: "transparent"}} /> */}
-                            <span className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestIR</span>
+                        <div className="flex gap-2 items-center">
+                            {/* <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span> */}
+                            <p className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>Invest<span className="text-lime-base/80">IR</span></p>
                         </div>
 
                         <h1 className="mb-7 mt-16 text-[26px] font-bold text-my-foreground-secondary max-md:mb-8 max-md:mt-12">Cadastre-se gratuitamente</h1>

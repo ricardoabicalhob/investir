@@ -1,4 +1,4 @@
-# 📈 INVESTIR
+# 📈 InvestIR
 
 O **InvestIR** é um sistema para controle, análise e planejamento de carteira de investimentos em ações.  
 Com ele, você pode registrar suas negociações de compra e venda, acompanhar a rentabilidade dos seus ativos em tempo real e planejar a composição ideal da sua carteira.
