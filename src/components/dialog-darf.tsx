@@ -47,7 +47,7 @@ export function DialogDarf({
                     </button>
                 </DialogTrigger>
                 <DialogContent 
-                    className="!w-[780px] !max-w-[780px] !h-[600px] bg-white border-2 border-my-foreground/40 shadow-xl shadow-my-background-secondary"
+                    className="!w-[780px] !max-w-[780px] !h-[620px] bg-white border-2 border-my-foreground/40 shadow-xl shadow-my-background-secondary"
                 >
                 <DialogHeader>
                     <DialogTitle className="text-my-background-secondary">Documento de Arrecadação de Receitas Federais</DialogTitle>
@@ -57,7 +57,7 @@ export function DialogDarf({
                     
                     <div className="w-full max-w-4xl mx-auto font-sans text-[11px]">
                         
-                        <div className="grid grid-cols-4 grid-rows-15 w-auto h-[450px] border-[0.5px] border-my-foreground/50">
+                        <div className="grid grid-cols-4 grid-rows-15 w-auto h-[500px] border-[0.5px] border-my-foreground/50">
                             <div className="col-span-2 row-span-12 bg-my-foreground border-my-foreground grid grid-rows-12">
                                 
                                 <div className="bg-my-foreground-accent row-span-5 grid grid-rows-10">

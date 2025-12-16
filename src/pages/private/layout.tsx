@@ -12,6 +12,7 @@ import { queryClient } from "@/services/queryClient"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { nameInInitialsFormat } from "@/utils/formatters"
 import { SystemProvider } from "@/contexts/system.context"
+import logoParcialIR from "../../assets/images/parte-logo-IR-fundo-transparente.png"
 
 export default function LayoutConnected({ children }: { children? :React.ReactNode }) {
 
@@ -53,8 +54,14 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
                   setIsExpanded={setExpandedSidebar} 
                 />
                 <div className="flex gap-2 items-center">
-                    {/* <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span> */}
-                    <p className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>Invest<span className="text-lime-base/80">IR</span></p>
+                    {/* <p className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>Invest<span className="text-lime-base/80">IR</span></p> */}
+                    <div 
+                        className="flex items-center z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" 
+                        style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}
+                    >
+                        Invest
+                        <img src={logoParcialIR} width={40} alt="logo-investir-topbar" />
+                    </div>
                 </div>
               </div>
 

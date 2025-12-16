@@ -10,6 +10,8 @@ import { useContext, useEffect } from "react"
 import { AuthContext } from "@/contexts/auth.context"
 import { jwtDecode } from "jwt-decode"
 import { toast } from "sonner"
+import logoInvesIR from "../../../assets/images/logo-investir-fundo-transparente.png"
+import logoParcialIR from "../../../assets/images/parte-logo-IR-fundo-transparente.png"
 
 const userSchema = z.object({
     email: z.string().email({
@@ -126,9 +128,10 @@ export default function SignInPage() {
     return(
         <div className="flex h-screen items-stretch">
             <div className="flex-1 bg-cover bg-center max-[1100px]:hidden bg-linear-150 from-lime-base to-white">
-                <div className="flex gap-2 w-full h-full items-center justify-center">
-                    {/* <span className="material-symbols-outlined text-my-background-secondary" style={{fontSize: 64, fontWeight: 700}}>finance_mode</span> */}
-                    <p className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>Invest<span className="text-lime-base bg-my-background rounded-full text-center pl-1 border border-my-foreground/50">IR</span></p>
+                <div className="flex flex-col gap-2 w-full h-full items-center justify-center">
+                    <img src={logoInvesIR} width={300} alt="logo-investir-signup" />
+                    <p className="text-my-background-secondary/70 text-xl text-center font-semibold">Gestão de carteira, planejamento e<br/>
+                        cálculo automático de Imposto de Renda.</p>
                 </div>
             </div>
 
@@ -136,8 +139,13 @@ export default function SignInPage() {
                 <div className="h-[100dvh] bg-my-background-secondary p-20 overflow-auto max-[1100px]:h-auto max-[1100px]:min-h-[calc(100dvh-16px)] max-[1100px]:p-7 custom-scrollbar">
                     <div className="flex flex-col">
                         <div className="flex gap-2 items-center">
-                            {/* <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span> */}
-                            <p className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>Invest<span className="text-lime-base/80">IR</span></p>
+                            <div 
+                                className="flex items-center z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" 
+                                style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}
+                            >
+                                Invest
+                                <img src={logoParcialIR} width={40} alt="logo-investir-menor-signup" />
+                            </div>
                         </div>
 
                         <h1 className="mb-7 mt-16 text-[26px] font-bold text-my-foreground-secondary max-md:mb-8 max-md:mt-12">Acesse sua conta</h1>

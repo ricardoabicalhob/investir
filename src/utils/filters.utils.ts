@@ -48,14 +48,16 @@ export function filtarListaDeDarfs(str :string, arr :DarfI[]) :DarfI[]{
     const arrFiltrado = arr.filter(item => {
         const modality = modalities[item.modality]
         const periodoApuracao = formatPeriodoApuracaoToString(item.periodoApuracao)
-        const situacao = item.paga ? "PAGA" : "PENDENTE"
+        const situacoes = item.paga
+            ? ["PAGA"]
+            : ["PENDENTE", "VEDADO"]
         const dueDate = new Date(item.dueDate).toLocaleDateString("pt-BR")
         const paymentDate = item.paymentDate ? new Date(item.paymentDate).toLocaleDateString("pt-BR") : ""
 
         return termoBuscaSplit.every(termo =>
             modality.includes(termo) ||
             periodoApuracao.includes(termo) ||
-            situacao.includes(termo) ||
+            situacoes.some(s => s.includes(termo)) ||
             dueDate.includes(termo) ||
             paymentDate.includes(termo)
         )
