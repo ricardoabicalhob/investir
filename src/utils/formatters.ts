@@ -110,3 +110,10 @@ export function formatWhileTyping(value: string) {
         display 
     };
 }
+
+export function formatPeriodoApuracaoToString(value :number) {
+  const str = value.toString().padStart(6, "0")
+    const ano = str.substring(0, 4)
+    const mes = str.substring(4, 6)
+    return `${mes}/${ano}`
+}

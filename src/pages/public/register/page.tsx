@@ -133,7 +133,7 @@ export default function RegisterPage() {
                 <div className="flex gap-2 w-full h-full items-center justify-center">
                     <span className="material-symbols-outlined text-my-background-secondary" style={{fontSize: 64, fontWeight: 700}}>finance_mode</span>
                     {/* <img src={orquestraLogo} alt="orquestra-logo-grande" loading="lazy" width={300} height={20} decoding="async" style={{color: "transparent", opacity: .4 }} /> */}
-                    <span className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>InvestHub</span>
+                    <span className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>InvestIR</span>
                     {/* <span className="font-normal text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>TEAM FLOW</span> */}
                 </div>
             </div>
@@ -144,7 +144,7 @@ export default function RegisterPage() {
                         <div className="flex items-center gap-2">
                             <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span>
                             {/* <img className="z-50" src={orquestraLogo} alt="orquestra-logo" loading="lazy" width={40} height={20} decoding="async" style={{color: "transparent"}} /> */}
-                            <span className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestHub</span>
+                            <span className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestIR</span>
                         </div>
 
                         <h1 className="mb-7 mt-16 text-[26px] font-bold text-my-foreground-secondary max-md:mb-8 max-md:mt-12">Cadastre-se gratuitamente</h1>

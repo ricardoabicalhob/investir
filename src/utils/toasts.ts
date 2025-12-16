@@ -10,7 +10,6 @@ export const showErrorToast = (message :string) => {
             borderBottomWidth: 3,
             minWidth: 520,
             width: "90%",
-            height: 64,
             fontSize: 15
         },
         position: "bottom-right",

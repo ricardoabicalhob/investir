@@ -67,7 +67,7 @@ export const LoadingSpinner = ({
                 // Classes de centralização total e overlay (SUA SOLUÇÃO FUNCIONAL)
                 "fixed inset-0 z-[5000] flex flex-col items-center justify-center backdrop-blur-sm", 
                 "w-screen h-screen", 
-                "bg-my-background/95" 
+                "bg-my-background/5" 
             )}>
                 {SpinnerContent}
                 

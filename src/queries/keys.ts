@@ -1,5 +1,5 @@
 import type { DarfToUpdateI } from "@/interfaces/darf.interface"
-import type { OrderCreate, OrderPresenter, OrderToUpdate } from "@/interfaces/order.interface"
+import type { OrderCreate, OrderToUpdate } from "@/interfaces/order.interface"
 import type { TradeModality } from "@/interfaces/orderBreakdown.interface"
 import type { RecommendedAssetCreate, RecommendedAssetUpdatePlannedPercentage } from "@/interfaces/recommendedAsset.interface"
 
@@ -7,9 +7,8 @@ export const orderKeys = {
     all: ['orders'],
     list: () => [...orderKeys.all],
     listByMonth: (userId :string, year :number, month :number) => [...orderKeys.all, 'listByMonth', userId, year, month] as const,
-    listAmountTradedByAsset: (userId :string) => [...orderKeys.all, 'listAmountTradedByAsset', userId] as const,
     create: (order :OrderCreate)=> [...orderKeys.all, "create", order.userId] as const,
-    delete: (orderToDelete :OrderPresenter | undefined) => [...orderKeys.all, "delete", orderToDelete] as const,
+    delete: (id :string | undefined) => [...orderKeys.all, "delete", id] as const,
     update: (orderToUpdate :OrderToUpdate)=> [...orderKeys.all, "update", orderToUpdate.id] as const
 }
 
@@ -47,5 +46,6 @@ export const darfKeys = {
     create: (userId :string, selectedYear :number, selectedMonth :number, tradeModality :TradeModality) => [...darfKeys.all, 'create', userId, selectedYear, selectedMonth, tradeModality] as const,
     delete: (id :string) => [...darfKeys.all, "delete", id] as const,
     update: (darfToUpdate :DarfToUpdateI)=> [...darfKeys.all, "update", darfToUpdate.id] as const,
-    updatePagamento: (id :string)=> [...darfKeys.all, "updatePagamento", id] as const
+    updatePagamento: (id :string)=> [...darfKeys.all, "updatePagamento", id] as const,
+    cancelPagamento: (id :string)=> [...darfKeys.all, "cancelPagamento", id] as const
 }

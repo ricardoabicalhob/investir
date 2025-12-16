@@ -3,12 +3,11 @@ import { MoedaEmReal } from "./moeda-percentual";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { DialogUpdateDarf } from "./dialog-update-darf";
 import { AlertDialogMessage } from "./alert-dialog";
-import { useDeleteDarf, useUpdatePagamentoDarf } from "@/queries/darf";
+import { useCancelPagamentoDarf, useDeleteDarf } from "@/queries/darf";
 import { showErrorToast, showSuccesToast } from "@/utils/toasts";
 import { AlertDialogTrigger } from "./ui/alert-dialog";
-import { Checkbox } from "./ui/checkbox";
-import { LoadingSpinner } from "./loading-spinner";
 import { DialogDarf } from "./dialog-darf";
+import { formatPeriodoApuracaoToString } from "@/utils/formatters";
 
 interface TableDarfsProps {
     darfs :DarfI[]
@@ -29,7 +28,7 @@ export function TableDarfs({
     }
 
     const { mutate: deleteDarf } = useDeleteDarf()
-    const { mutate: updatePagamentoDarf, isPending: isPendingUpdatePagamento } = useUpdatePagamentoDarf()
+    const { mutate: cancelarPagamentoDarf } = useCancelPagamentoDarf()
 
     function handelDeleteDarf(id :string) {
         deleteDarf(id, {
@@ -43,7 +42,7 @@ export function TableDarfs({
     }
 
     function handlePagamentoDarf(id :string) {
-        updatePagamentoDarf(id, {
+        cancelarPagamentoDarf(id, {
             onError: (errorUpdatedDarf) => {
                 showErrorToast(errorUpdatedDarf.message)
             },
@@ -65,14 +64,15 @@ export function TableDarfs({
                 <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center">Multa</TableHead>
                 <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center">Juros / Encargos</TableHead>
                 <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center">Valor total</TableHead>
-                <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center">Paga?</TableHead>
+                <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center w-[8%]">Situação</TableHead>
+                <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center w-[10%]">Pagamento</TableHead>
                 <TableHead className="text-my-foreground-secondary text-xs font-normal opacity-60 text-center">Ações</TableHead>
             </TableHeader>
             <TableBody>
                 {darfs &&
                     darfs.map(darf => (
                         <TableRow key={darf.id}>
-                            <TableCell className="text-my-foreground-secondary text-left tabular-nums">{darf.periodoApuracao.replace('-', '/')}</TableCell>
+                            <TableCell className="text-my-foreground-secondary text-left tabular-nums">{formatPeriodoApuracaoToString(darf.periodoApuracao)}</TableCell>
                             <TableCell className="text-my-foreground-secondary text-left">{modalities[darf.modality]}</TableCell>
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums">{darf.codReceita}</TableCell>
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums">{new Date(darf.dueDate).toLocaleDateString("pt-BR")}</TableCell>
@@ -80,19 +80,42 @@ export function TableDarfs({
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={darf.valorDaMulta} /></TableCell>
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={darf.valorJurosEncargos} /></TableCell>
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums"><MoedaEmReal centavos={darf.valorTotal} /></TableCell>
-                            <TableCell className="text-my-foreground-secondary text-center">
-                                {!isPendingUpdatePagamento &&
-                                    <Checkbox 
-                                        className="cursor-pointer data-[state=checked]:text-lime-base"
-                                        checked={darf.paga} 
-                                        onClick={()=> handlePagamentoDarf(darf.id)}    
-                                />}
-                                {isPendingUpdatePagamento && 
-                                    <LoadingSpinner size="sm" className="text-lime-base" isLoading={isPendingUpdatePagamento}/>}
-                            </TableCell>
+                            {
+                                darf.paga
+                                ?
+                                <TableCell className="text-my-foreground-secondary text-right tabular-nums"><span>Paga</span></TableCell>
+                                :
+                                (
+                                    darf.abaixoDoLimiteMinimo
+                                    ?
+                                    <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ darf.abaixoDoLimiteMinimo && <span>Vedado</span> }</TableCell>
+                                    :
+                                    <TableCell className="text-my-foreground-secondary text-right tabular-nums"><span>Pendente</span></TableCell>
+                                )
+                            }
+                            
+                            <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ darf.paymentDate ? new Date(darf.paymentDate).toLocaleDateString('pt-BR') : '-' }</TableCell>
+
                             <TableCell>
                                 
-                                <div className="flex gap-1 items-center justify-center">
+                                <div className="flex gap-1 items-center justify-end">
+
+                                    <div className="flex">
+                                        {darf.paymentDate && !darf.abaixoDoLimiteMinimo &&
+                                            <button 
+                                                className="material-symbols-outlined text-lime-secondary opacity-60 hover:bg-my-foreground/50 p-1 rounded-full cursor-pointer"
+                                                style={{fontSize: 18}}
+                                                onClick={()=> handlePagamentoDarf(darf.id)}    
+                                            >currency_exchange</button>
+                                        }
+                                        {!darf.paymentDate && !darf.abaixoDoLimiteMinimo &&
+                                            <span
+                                                className="material-symbols-outlined text-my-foreground opacity-60 p-1 rounded-full select-none"
+                                                style={{fontSize: 22}}
+                                            >paid</span>
+                                        }
+                                    </div>
+
                                     <DialogDarf
                                         darf={darf}
                                     />
@@ -109,15 +132,15 @@ export function TableDarfs({
                                             </p>
                                         }
                                         message={
-                                            <p>A DARF de <span className="text-my-foreground-secondary font-bold">{modalities[darf.modality]}</span> registrada para o período de apuração <span className="text-my-foreground-secondary font-bold">{darf.periodoApuracao.replace('-', '/')}</span> será excluída definivamente. Deseja continuar?</p>
+                                            <p>A DARF de <span className="text-my-foreground-secondary font-bold">{modalities[darf.modality]}</span> registrada para o período de apuração <span className="text-my-foreground-secondary font-bold">{formatPeriodoApuracaoToString(darf.periodoApuracao)}</span> será excluída definivamente. Deseja continuar?</p>
                                         }
                                         action={()=> {
                                             handelDeleteDarf(darf.id)
                                         }}
                                     >
-                                        <AlertDialogTrigger>
+                                        <AlertDialogTrigger disabled={darf.paga} asChild>
                                             <button 
-                                                className="material-symbols-outlined text-lime-secondary opacity-60 hover:bg-my-foreground/50 p-1 rounded-full cursor-pointer" 
+                                                className={`material-symbols-outlined text-lime-secondary opacity-60 hover:bg-my-foreground/50 p-1 rounded-full ${darf.paga || (darf.accumulationDarfId && darf.accumulationDarfId !== darf.id) ? 'pointer-events-none text-my-foreground' : 'cursor-pointer'}`} 
                                                 style={{fontSize: 22}}
                                             >
                                                 delete

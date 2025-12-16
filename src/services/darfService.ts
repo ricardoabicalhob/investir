@@ -70,6 +70,19 @@ const darfService = {
                 throw new Error(error.response?.data.error)
             }
         }
+    },
+
+    cancelPagamento: async (id :string) => {
+        if(!id) { throw new Error("Erro ao cancelar o pagamento da DARF") }
+        try {
+            const response = await api.patch('/darf/cancelarpagamento', { id })
+            
+            return response.data as DarfI
+        } catch (error :unknown) {
+            if(error instanceof AxiosError) {
+                throw new Error(error.response?.data.error)
+            }
+        }
     }
 }
 

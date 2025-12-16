@@ -15,6 +15,7 @@ export interface OrderPresenter {
     taxes :number
     operationType :OperationType
     status :OrderStatus
+    bloqueada :boolean
     archivingOrderId :string | null
     userId :string
     averagePrice :number
@@ -45,14 +46,4 @@ export interface OrderToUpdate {
     taxes :number | null,
     id? :string,
     updatedAt? :Date,
-}
-
-export interface AmountTradedByAssetPresenter {
-    sum :{
-        amount :number,
-        fees :number,
-        taxes :number
-    },
-    symbol :string,
-    operationType :OperationType
 }

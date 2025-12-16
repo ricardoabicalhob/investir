@@ -54,7 +54,7 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
                 />
                 <div className="flex items-center gap-2">
                   <span className="z-50 material-symbols-outlined text-lime-base" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span>
-                  <span className={`z-50 text-my-foreground-secondary select-none ${!expandedSidebar && 'max-[1100px]:hidden'} font-semibold`} style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestHub</span>
+                  <span className={`z-50 text-my-foreground-secondary select-none ${!expandedSidebar && 'max-[1100px]:hidden'} font-semibold`} style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestIR</span>
                 </div>
               </div>
 

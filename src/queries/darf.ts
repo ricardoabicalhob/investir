@@ -78,3 +78,19 @@ export const useUpdatePagamentoDarf = () => {
         } 
     })
 }
+
+export const useCancelPagamentoDarf = () => {
+    return useMutation<DarfI | undefined, Error, string>({
+        mutationFn: (id :string) => darfService.cancelPagamento(id),
+        onSuccess: (updatedDarf) => {
+            queryClient.invalidateQueries({ queryKey: darfKeys.all })
+            updatedDarf && queryClient.setQueryData(darfKeys.update(updatedDarf), updatedDarf)
+        },
+        onError: (error) => {
+            console.error('Falha ao cancelar o pagamento da DARF', error)
+        },
+        onSettled: () => {
+            //isso é executado independente do sucesso ou falha
+        } 
+    })
+}

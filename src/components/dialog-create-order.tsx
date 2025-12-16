@@ -20,6 +20,7 @@ import { useFocusOnOpen } from "@/hooks/useFocusOnOpen"
 import { useUpdateLogoOnSale } from "@/hooks/useUpdateLogoOnSale"
 import { useClearSymbolOnOperationChange } from "@/hooks/useClearSymbolOnOperationChange"
 import { formatCentavosToReal, parseInputToCentavos } from "@/utils/formatters"
+import { MoedaEmReal } from "./moeda-percentual"
 
 interface DialogCreateOrderProps {
     userId :string
@@ -42,6 +43,7 @@ export function DialogCreateOrder({
     const [ operationType, setOperationType ] = useState<"Compra" | "Venda">("Compra")
     const [ assetType, setAssetType ] = useState<"Acao" | "Fii" | "Cripto">("Acao")
     const [ centavosUnitPrice, setCentavosUnitPrice ] = useState<string>("")
+    const [ centavosCurrentPrice, setCentavosCurrentPrice ] = useState<number>(0)
 
     const assetSymbolInputRef = useRef<HTMLInputElement>(null)
 
@@ -69,12 +71,14 @@ export function DialogCreateOrder({
 
             setAssetSymbol(data.results[0].symbol)
             setAssetLogourl(data.results[0].logourl)
+            setCentavosCurrentPrice(data.results[0].regularMarketPrice * 100)
             // setIsValidatingAsset(false)
         } catch (error :unknown) {
             if(error instanceof AxiosError) {
                 showErrorToast(error.response?.data.message)
                 setAssetSymbol("")
                 setAssetLogourl("")
+                setCentavosCurrentPrice(0)
             }
             // setIsValidatingAsset(false)
         }
@@ -90,6 +94,7 @@ export function DialogCreateOrder({
         setCentavosTaxes("0.00")
         setOperationType("Compra")
         setAssetType("Acao")
+        setCentavosCurrentPrice(0)
     }
 
     function handleSubmit(e :React.FormEvent) {
@@ -127,7 +132,7 @@ export function DialogCreateOrder({
 
     useFocusOnOpen(assetSymbolInputRef, isCreateDialogOpen)
 
-    useUpdateLogoOnSale(operationType, assetSymbol, assetsForSale, setAssetLogourl)
+    useUpdateLogoOnSale(operationType, assetSymbol, assetsForSale, setAssetLogourl, setCentavosCurrentPrice)
 
     useClearSymbolOnOperationChange(operationType, setAssetSymbol)
 
@@ -170,7 +175,7 @@ export function DialogCreateOrder({
                 <form id="form-new-order" onSubmit={handleSubmit} className="space-y-6">
 
                     <div className="bg-my-background-secondary p-4 rounded-lg grid grid-cols-3 gap-4">
-                        <Calendar24 date={date} setDate={setDate} />
+                        <Calendar24 label="Data" date={date} setDate={setDate} />
                         <ComboboxOperationType operationType={operationType} setOperationType={setOperationType} />
                         <ComboboxAssetType assetType={assetType} setAssetType={setAssetType} />
                     </div>
@@ -179,6 +184,13 @@ export function DialogCreateOrder({
                         <div className="flex flex-col gap-3">
                             { operationType === "Compra" &&
                                 <>
+                                    {/* <div className="flex justify-between items-center">
+                                        <Label className="px-1 text-my-foreground-secondary">Ativo</Label>
+                                        <div className="flex gap-1">
+                                            <span className="text-xs mb-[-4px] text-lime-base">Atual</span>
+                                            <MoedaEmReal className="text-xs mb-[-4px] text-lime-base" centavos={centavosCurrentPrice} parenteses={true} />
+                                        </div>
+                                    </div> */}
                                     <Label className="px-1 text-my-foreground-secondary">Ativo</Label>
                                     <div className="relative">
                                         
@@ -187,7 +199,6 @@ export function DialogCreateOrder({
                                         </div> }
                                         { (!!assetLogourl) && <img src={assetLogourl} className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-my-foreground-secondary rounded-sm"/>}
                                         <Input ref={assetSymbolInputRef} type="text" placeholder="Nome do ativo" value={assetSymbol} onChange={(e) => setAssetSymbol(e.target.value)} onBlur={(e) => validateSymbol(e.target.value)} onFocus={e => e.target.select()} className="bg-my-background selection:bg-blue-500 pl-[42px] text-my-foreground-secondary border-0 focus:!ring-[1px]" />
-                                    
                                     </div>
                                 </>
                             }

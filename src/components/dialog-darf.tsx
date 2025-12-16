@@ -5,6 +5,7 @@ import type { DarfI } from "@/interfaces/darf.interface"
 import logoDarf from '../../src/assets/images/logo-darf.png'
 import { MoedaEmReal } from "./moeda-percentual"
 import { AuthContext } from "@/contexts/auth.context"
+import { formatPeriodoApuracaoToString } from "@/utils/formatters"
 
 interface DialogDarfProps {
     darf :DarfI
@@ -24,6 +25,8 @@ export function DialogDarf({
         swing_trade: "Swing Trade"
     }
 
+    const darfsAcumuladas = darf.accumulatedDarfs?.filter(currentDarf => currentDarf.id !== darf.id)
+
     return(
         <Dialog open={isInfoDialogOpen} onOpenChange={(open)=> {
             setIsInfoDialogOpen(open)
@@ -37,14 +40,14 @@ export function DialogDarf({
                 <DialogTrigger asChild>
                     <button
                         onClick={()=> {}}
-                        className={`material-symbols-outlined text-lime-secondary opacity-60 hover:bg-my-foreground/50 p-1 rounded-full cursor-pointer`} 
+                        className={`material-symbols-outlined text-lime-secondary opacity-60 hover:bg-my-foreground/50 p-1 rounded-full ${darf.abaixoDoLimiteMinimo ? 'pointer-events-none text-my-foreground' : 'cursor-pointer'}`} 
                         style={{fontSize: 22}}                                                
                     >
                         visibility
                     </button>
                 </DialogTrigger>
                 <DialogContent 
-                    className="!w-[780px] !max-w-[780px] !h-[515px] bg-white border-2 border-my-foreground/40 shadow-xl shadow-my-background-secondary"
+                    className="!w-[780px] !max-w-[780px] !h-[600px] bg-white border-2 border-my-foreground/40 shadow-xl shadow-my-background-secondary"
                 >
                 <DialogHeader>
                     <DialogTitle className="text-my-background-secondary">Documento de Arrecadação de Receitas Federais</DialogTitle>
@@ -54,7 +57,7 @@ export function DialogDarf({
                     
                     <div className="w-full max-w-4xl mx-auto font-sans text-[11px]">
                         
-                        <div className="grid grid-cols-4 grid-rows-12 w-auto h-[400px] border-[0.5px] border-my-foreground/50">
+                        <div className="grid grid-cols-4 grid-rows-15 w-auto h-[450px] border-[0.5px] border-my-foreground/50">
                             <div className="col-span-2 row-span-12 bg-my-foreground border-my-foreground grid grid-rows-12">
                                 
                                 <div className="bg-my-foreground-accent row-span-5 grid grid-rows-10">
@@ -97,7 +100,7 @@ export function DialogDarf({
                                     <span className="text-[10px] pt-1">PERÍODO DE APURAÇÃO</span>
                                 </div>
 
-                                <div className="bg-my-foreground-accent text-sm font-semibold text-center flex justify-center items-center border-[0.5px] border-my-foreground/50 h-full">{ darf.periodoApuracao.replace('-', '/') }</div>
+                                <div className="bg-my-foreground-accent text-sm font-semibold text-center flex justify-center items-center border-[0.5px] border-my-foreground/50 h-full">{ formatPeriodoApuracaoToString(darf.periodoApuracao) }</div>
                                 
                                 <div className="flex items-start gap-1 px-1 bg-my-foreground-accent text-[16px] border-[0.5px] border-my-foreground/50">
                                     <span className="text-[16px] font-bold align-text-top">03</span>
@@ -168,6 +171,28 @@ export function DialogDarf({
                                     <span className="text-[10px] pt-1">AUTENTICAÇÃO BANCÁRIA (Somente nas 1ª e 2ª vias)</span>
                                 </div>
 
+                            </div>
+
+                            <div className="flex flex-col flex-wrap h-[100px] col-span-4 px-3 py-1">
+                                <span className="text-[10px] font-bold">OBSERVAÇÕES</span>
+                                {
+                                    darfsAcumuladas && 
+                                    darfsAcumuladas.length > 0 &&
+                                    <div>
+                                        <span>Valores acumulados incluídos:</span>
+                                        {
+                                            darfsAcumuladas.map(darf => {
+                                                return(
+                                                    <div className="flex gap-2">
+                                                        <span className="tabular-nums">Período de apuração: { formatPeriodoApuracaoToString(darf.periodoApuracao) }</span>
+                                                        <span>{ modalities[darf.modality] }</span>
+                                                        <span><MoedaEmReal className="tabular-nums" centavos={darf.valorTotal} /></span>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                }
                             </div>
                         </div>
 

@@ -1,4 +1,6 @@
+import type { DarfI } from "@/interfaces/darf.interface"
 import type { OrderPresenter } from "@/interfaces/order.interface"
+import { formatPeriodoApuracaoToString } from "./formatters"
 
 export function filtarListaDeOrdens(str :string, arr :OrderPresenter[]) :OrderPresenter[]{
     if(!str) {
@@ -22,6 +24,40 @@ export function filtarListaDeOrdens(str :string, arr :OrderPresenter[]) :OrderPr
             orderDate.includes(termo) ||
             assetType.includes(termo) ||
             operationType.includes(termo)
+        )
+    })
+    return arrFiltrado
+}
+
+export function filtarListaDeDarfs(str :string, arr :DarfI[]) :DarfI[]{
+    if(!str) {
+        return arr
+    }
+
+    const modalities = {
+        "swing_trade": "SWING TRADE",
+        "day_trade": "DAY TRADE"
+    }
+
+    const termoBusca = str.toUpperCase()
+    const termoBuscaSplit = termoBusca
+        .split(",")
+        .map(termo => termo.trim())
+        .filter(termo => termo.length > 0)
+    
+    const arrFiltrado = arr.filter(item => {
+        const modality = modalities[item.modality]
+        const periodoApuracao = formatPeriodoApuracaoToString(item.periodoApuracao)
+        const situacao = item.paga ? "PAGA" : "PENDENTE"
+        const dueDate = new Date(item.dueDate).toLocaleDateString("pt-BR")
+        const paymentDate = item.paymentDate ? new Date(item.paymentDate).toLocaleDateString("pt-BR") : ""
+
+        return termoBuscaSplit.every(termo =>
+            modality.includes(termo) ||
+            periodoApuracao.includes(termo) ||
+            situacao.includes(termo) ||
+            dueDate.includes(termo) ||
+            paymentDate.includes(termo)
         )
     })
     return arrFiltrado

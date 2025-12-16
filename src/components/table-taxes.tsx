@@ -1,3 +1,4 @@
+import { AssetLogo } from "./asset-logo";
 import { MoedaEmReal } from "./moeda-percentual";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import type { TaxesI } from "@/interfaces/taxes.interface";
@@ -29,10 +30,11 @@ export function TableTaxes({
                     .map(ativo => (
                         <TableRow key={ativo.symbol}>
                             <TableCell className="text-my-foreground-secondary">
-                                { !!ativo.logoUrl && <img src={ativo.logoUrl} alt="" className='rounded-sm w-6 h-6 justify-self-center' />}
-                                { !!!ativo.logoUrl && <div className="flex items-center justify-self-center justify-center rounded-sm bg-my-background-secondary border border-my-foreground/50 w-6 h-6">
-                                    <span className="material-symbols-outlined text-lime-base">finance_mode</span>
-                                </div> }
+                                <AssetLogo
+                                    src={ativo.logoUrl}
+                                    className="w-6 h-6 justify-self-center"
+                                    iconSize={18}
+                                />
                             </TableCell>
                             <TableCell className="text-my-foreground-secondary text-left tabular-nums">{ativo.symbol}</TableCell>
                             <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ativo.quantidadeTotal}</TableCell>

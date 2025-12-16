@@ -3,12 +3,13 @@ import { MoedaEmReal } from "./moeda-percentual"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import { useDeleteOrder } from "@/queries/order"
-import { MiniLoadingSpinner } from "./mini-loading-spinner"
 import { DialogInfoOrder } from "./dialog-info-order"
 import { DialogUpdateOrder } from "./dialog-update-order"
 import { TypeOperationIndicator } from "./type-operation_indicator"
 import { AlertDialogMessage } from "./alert-dialog"
 import { AlertDialogTrigger } from "./ui/alert-dialog"
+import { useEffect } from "react"
+import { AssetLogo } from "./asset-logo"
 
 interface TableOrdersProps {
     orderListFiltered :OrderPresenter[]
@@ -23,7 +24,7 @@ export function TableOrders({
     const { mutate: deleteOrder } = useDeleteOrder()
 
     function handelDeleteOrder(ordem :OrderPresenter) {
-        deleteOrder(ordem, {
+        deleteOrder(ordem.id, {
             onError: (errorDeleteOrder) => {
                 showErrorToast(errorDeleteOrder.message)
             },
@@ -32,6 +33,10 @@ export function TableOrders({
             }
         })
     }
+
+    useEffect(()=> {
+        console.log(orderListFiltered)
+    }, [orderListFiltered])
 
     return(
         <Table>
@@ -57,8 +62,7 @@ export function TableOrders({
                         <TableCell className="text-my-foreground-secondary tabular-nums">{new Date(ordem.orderDate).toLocaleDateString("pt-BR")}</TableCell>
                         <TableCell className="text-my-foreground-secondary">{ordem.assetType}</TableCell>
                         <TableCell className="text-my-foreground-secondary">
-                            { !logoUrlPorAtivos[ordem.symbol] && <MiniLoadingSpinner isLoading={!!logoUrlPorAtivos} size="sm" className="text-lime-base/50" /> }
-                            { logoUrlPorAtivos[ordem.symbol] && <img src={logoUrlPorAtivos[ordem.symbol]} alt="" className='rounded-sm w-5 h-5 justify-self-center' />}
+                            <AssetLogo src={logoUrlPorAtivos[ordem.symbol]} className="rounded-sm w-5 h-5"/>
                         </TableCell>
                         <TableCell className="text-my-foreground-secondary text-center tabular-nums">{ordem.symbol}</TableCell>
                         <TableCell className="text-my-foreground-secondary text-right tabular-nums">{ordem.amount}</TableCell>

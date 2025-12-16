@@ -15,10 +15,11 @@ const orderService = {
             }
         }
     },
-    deleteOrder: async (orderToDelete :OrderPresenter | undefined) => {
-        if(!orderToDelete) { throw new Error("Erro ao deletar a ordem") }
+    deleteOrder: async (id :string | undefined) => {
+        if(!id) { throw new Error("Erro ao deletar a ordem") }
+        
         try {
-            const response = await api.delete(`/ordem`, { data: orderToDelete })
+            const response = await api.delete(`/ordem?id=${id}`)
 
             return response.data
         } catch (error :unknown) {
@@ -33,18 +34,6 @@ const orderService = {
             const response = await api.patch('/ordem', orderToUpdate)
             
             return response.data as OrderPresenter
-        } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
-            }
-        }
-    },
-    listAmountTradedByAsset: async (userId :string) => {
-        if(!userId) { throw new Error("Informe o ID do usuário") }
-        try {
-            const response = await api.get(`/ordem/totalnegociado?userId=${userId}`)
-
-            return response.data
         } catch (error :unknown) {
             if(error instanceof AxiosError) {
                 throw new Error(error.response?.data.error)

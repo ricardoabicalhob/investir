@@ -5,10 +5,10 @@ import { useDeleteRecommendedAsset } from "@/queries/recommendedAsset"
 import { DialogCreateOrderByRebalancing } from "./dialog-create-order-by-rebalancing"
 import { DialogUpdateRecommendedAsset } from "./dialog-update-recommended-asset"
 import type { AtivoPlanejadoConsolidado } from "@/interfaces/ativoPlanejadoConsolidado.interface"
-import { MiniLoadingSpinner } from "./mini-loading-spinner"
 import { TypeOperationIndicator } from "./type-operation_indicator"
 import { AlertDialogMessage } from "./alert-dialog"
 import { AlertDialogTrigger } from "./ui/alert-dialog"
+import { AssetLogo } from "./asset-logo"
 
 interface TableRecommendedAssetProps {
     userId :string
@@ -43,8 +43,11 @@ export function TableRecommendedAsset({
                         return(
                             <TableRow key={ativo.symbol}>
                                 <TableCell className="text-my-foreground-secondary">
-                                    {!ativo.logoUrl && <MiniLoadingSpinner size="sm" isLoading={!!ativo.logoUrl} className="text-lime-base/50" />}
-                                    {ativo.logoUrl && <img src={ativo.logoUrl} alt="" className='rounded-sm w-6 h-6 justify-self-center' />}
+                                    <AssetLogo
+                                        src={ativo.logoUrl}
+                                        className="w-6 h-6 justify-self-center"
+                                        iconSize={18}
+                                    />
                                 </TableCell>
                                 
                                 <TableCell className="text-my-foreground-secondary text-center tabular-nums">

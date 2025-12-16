@@ -123,7 +123,7 @@ export function DialogCreateOrderByRebalancing({
                 <form id="form-new-order" onSubmit={handleSubmit} className="space-y-6">
 
                     <div className="bg-my-background-secondary p-4 rounded-lg grid grid-cols-3 gap-4">
-                        <Calendar24 date={date} setDate={setDate} />
+                        <Calendar24 label="Data" date={date} setDate={setDate} />
                         <ComboboxOperationType operationType={operationType} setOperationType={setOperationType} />
                         <ComboboxAssetType assetType={assetType} setAssetType={setAssetType} />
                     </div>

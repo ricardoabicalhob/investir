@@ -1,14 +1,34 @@
 import { converterValorDeCentavosParaReais, formatarPercentualComVirgula } from "@/utils/assets.utils";
 
-export function MoedaEmReal({ centavos } :{ centavos :number }) {
-    return(
-        <span>
-            { converterValorDeCentavosParaReais(centavos).toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            }) }
-        </span>
-    )
+interface MoedaEmRealProps extends React.HTMLAttributes<HTMLSpanElement> {
+  centavos: number
+  parenteses?: boolean
+}
+
+export function MoedaEmReal({ centavos, parenteses, ...props } :MoedaEmRealProps) {
+    if(parenteses) {
+        return(
+            <span
+                { ...props }
+            >
+                ({ converterValorDeCentavosParaReais(centavos).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }) })
+            </span>
+        )
+    } else {
+        return(
+            <span
+                { ...props }
+            >
+                { converterValorDeCentavosParaReais(centavos).toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                }) }
+            </span>
+        )
+    }
 }
 
 export function Porcento({ percentual } :{ percentual :number }) {

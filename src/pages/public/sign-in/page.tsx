@@ -128,7 +128,7 @@ export default function SignInPage() {
             <div className="flex-1 bg-cover bg-center max-[1100px]:hidden bg-linear-150 from-lime-base to-white">
                 <div className="flex gap-2 w-full h-full items-center justify-center">
                     <span className="material-symbols-outlined text-my-background-secondary" style={{fontSize: 64, fontWeight: 700}}>finance_mode</span>
-                    <span className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>InvestHub</span>
+                    <span className="font-semibold text-my-background-secondary" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 54}}>InvestIR</span>
                 </div>
             </div>
 
@@ -137,7 +137,7 @@ export default function SignInPage() {
                     <div className="flex flex-col">
                         <div className="flex gap-2 items-center">
                             <span className="material-symbols-outlined text-my-foreground-secondary" style={{fontSize: 32, fontWeight: 700}}>finance_mode</span>
-                            <span className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestHub</span>
+                            <span className="z-50 text-my-foreground-secondary select-none max-[1100px]:hidden font-semibold" style={{fontFamily: 'Montserrat, sans-serif', letterSpacing: '4px', fontSize: 24}}>InvestIR</span>
                         </div>
 
                         <h1 className="mb-7 mt-16 text-[26px] font-bold text-my-foreground-secondary max-md:mb-8 max-md:mt-12">Acesse sua conta</h1>

@@ -1,21 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { assetKeys, orderKeys, planningKeys, portifolioKeys, recommendedAssetKeys, taxesKeys } from "./keys"
 import { queryClient } from "@/services/queryClient"
-import type { AmountTradedByAssetPresenter, OrderCreate, OrderPresenter, OrderToUpdate } from "@/interfaces/order.interface"
+import type { OrderCreate, OrderPresenter, OrderToUpdate } from "@/interfaces/order.interface"
 import orderService from "@/services/orderService"
 
 export const useOrders = (userId :string) => {
     return useQuery<OrderPresenter[]>({
         queryKey: orderKeys.list(),
         queryFn: ()=> orderService.getOrders(userId),
-        staleTime: 1000 * 60 * 5
-    })
-}
-
-export const useOrdersListAmountTradedByAsset = (userId :string) => {
-    return useQuery<AmountTradedByAssetPresenter[]>({
-        queryKey: orderKeys.listAmountTradedByAsset(userId),
-        queryFn: () => orderService.listAmountTradedByAsset(userId),
         staleTime: 1000 * 60 * 5
     })
 }
@@ -50,8 +42,8 @@ export const useCreateOrder = () => {
 }
 
 export const useDeleteOrder = () => {
-    return useMutation<OrderPresenter | undefined, Error, OrderPresenter>({
-        mutationFn: (orderToDelete :OrderPresenter) => orderService.deleteOrder(orderToDelete),
+    return useMutation<OrderPresenter | undefined, Error, string>({
+        mutationFn: (id :string) => orderService.deleteOrder(id),
         onSuccess: (deletedOrder) => {
             queryClient.invalidateQueries({ queryKey: orderKeys.all })
             queryClient.invalidateQueries({ queryKey: assetKeys.all })
@@ -59,7 +51,7 @@ export const useDeleteOrder = () => {
             queryClient.invalidateQueries({ queryKey: portifolioKeys.all })
             queryClient.invalidateQueries({ queryKey: planningKeys.all })
             queryClient.invalidateQueries({ queryKey: taxesKeys.all })
-            deletedOrder && queryClient.setQueryData(orderKeys.delete(deletedOrder), deletedOrder)
+            deletedOrder && queryClient.setQueryData(orderKeys.delete(deletedOrder.id), deletedOrder)
         },
         onError: (error) => {
             console.error('Falha ao excluir a ordem', error)

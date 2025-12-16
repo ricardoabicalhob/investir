@@ -11,6 +11,7 @@ import type { TaxesI } from "@/interfaces/taxes.interface"
 import { cn } from "@/lib/utils"
 import { useCreateDarf } from "@/queries/darf"
 import { useTaxes } from "@/queries/taxes"
+import { formatPeriodoApuracaoToString } from "@/utils/formatters"
 import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import { useContext, useState } from "react"
 
@@ -89,7 +90,7 @@ export default function Impostos() {
 
         createDarf({userId, selectedYear, selectedMonth, tradeModality}, {
             onSuccess: (darfCreated) => {
-                showSuccesToast(`DARF de ${modalities[darfCreated.modality]} para o período de apuração ${darfCreated.periodoApuracao.replace('-', '/')} criada!`)
+                showSuccesToast(`DARF de ${modalities[darfCreated.modality]} para o período de apuração ${formatPeriodoApuracaoToString(darfCreated.periodoApuracao)} criada!`)
             },
             onError: (errorCreateDarf) => {
                 showErrorToast(errorCreateDarf.message)

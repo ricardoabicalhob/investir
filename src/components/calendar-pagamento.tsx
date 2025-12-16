@@ -1,21 +1,17 @@
 import { useState, type Dispatch, type SetStateAction } from "react"
-import { Label } from "./ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { ChevronDownIcon } from "lucide-react"
 import { Calendar } from "./ui/calendar"
 import { cn } from "@/lib/utils"
 
-export default function Calendar24({label, date, setDate} :{label? :string, date :Date | undefined, setDate :Dispatch<SetStateAction<Date | undefined>>}) {
+export default function CalendarPagamento({date, setDate} :{date :Date | null, setDate :Dispatch<SetStateAction<Date | null>>}) {
     
     const [ open, setOpen ] = useState(false)
 
     return(
         <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-                <Label htmlFor="date-picker" className="px-1 text-my-foreground-secondary">
-                    { label }
-                </Label>
                 <Popover modal={true} open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                         <Button
@@ -32,10 +28,11 @@ export default function Calendar24({label, date, setDate} :{label? :string, date
                     <PopoverContent className="w-auto overflow-hidden p-0" align="start">
                         <Calendar 
                             mode="single"
-                            selected={date}
+                            disabled={{after: new Date()}}
+                            selected={date ?? undefined}
                             captionLayout="dropdown"
                             onSelect={(date) => {
-                                setDate(date)
+                                setDate(date ?? null)
                                 setOpen(false)
                                 document.getElementById("time-picker")?.focus()
                             }}

@@ -1,5 +1,5 @@
 import { MoedaEmReal } from "./moeda-percentual"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import type { AssetPresenter } from "@/interfaces/asset.interface"
 
 interface CardAssetProps {
@@ -8,15 +8,44 @@ interface CardAssetProps {
 
 function CardAsset({ ativo } :CardAssetProps) {
 
+    const [imageLoaded, setImageLoaded] = useState(false)
+    const [imageError, setImageError] = useState(false)
+
     const resultadoEhNegativo = parseFloat(ativo.resultadoDoAtivoEmPercentual) < 0
     const resultadoEhZero = parseFloat(ativo.resultadoDoAtivoEmPercentual) === 0
 
     if(ativo.quantidadeAtualDeAcoes === 0) return null
 
+    const EmptySymbol = () => {
+        return(
+            <div className="flex items-center justify-center rounded-sm min-w-10 max-w-10 min-h-10 max-h-10 bg-my-background border border-lime-base/50">
+                <span className="material-symbols-outlined text-lime-base" style={{fontSize: 32}}>
+                    finance_mode
+                </span>
+            </div>
+        )
+    }
+
+    useEffect(() => {
+        setImageLoaded(false)
+        setImageError(false)
+    }, [ativo.logoUrl])
+
     return(
-        <div className="flex flex-col h-fit min-w-[290px] max-[600px]:max-w-full max-w-[24%] grow gap-3 bg-my-background-secondary rounded-md px-3 py-2.5 border border-[#29292E]">
+        <div className="flex flex-col min-h-[210px] max-h-[210px] min-w-[290px] max-[600px]:max-w-full max-w-[24%] grow gap-3 bg-my-background-secondary rounded-md px-3 py-2.5 border border-[#29292E]">
             <div className="flex items-center gap-3">
-                <img src={ativo.logoUrl} alt="" className='rounded-sm w-10 h-10' />
+                {(!imageLoaded || imageError) && <EmptySymbol />}
+
+                {ativo.logoUrl.trim() && (
+                    <img
+                        src={ativo.logoUrl}
+                        alt="logo-brapi"
+                        className={`rounded-sm w-10 h-10 ${imageLoaded ? "block" : "hidden"}`}
+                        onLoad={() => setImageLoaded(true)}
+                        onError={() => setImageError(true)}
+                    />
+                )}
+                
                 <div className="flex flex-col w-full gap-2">
                     <div className="flex w-full gap-3 items-center justify-between">
                         <span className="font-semibold text-sm">{ativo.assetSymbol}</span>
