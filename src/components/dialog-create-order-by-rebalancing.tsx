@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import Calendar24 from "./calendar-24"
 import ComboboxAssetType from "./combobox-asset-type"
 import ComboboxOperationType from "./combobox-operation-type"
@@ -13,10 +13,11 @@ import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import { useCreateOrder } from "@/queries/order"
 import { useFocusOnOpen } from "@/hooks/useFocusOnOpen"
 import { formatCentavosToReal, parseInputToCentavos } from "@/utils/formatters"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface DialogCreateOrderByRebalancingProps {
     userId :string
-    initialOperationType :"Compra" | "Venda"
+    initialOperationType :"compra" | "venda" | "neutro"
     initialAssetSymbol :string
     assetLogourl :string
 }
@@ -28,6 +29,9 @@ export function DialogCreateOrderByRebalancing({
     assetLogourl,
 } :DialogCreateOrderByRebalancingProps) {
 
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
+
     const [ isCreateDialogOpen, setIsCreateDialogOpen ] = useState(false)
 
     const [ date, setDate ] = useState<Date | undefined>(new Date())
@@ -35,7 +39,7 @@ export function DialogCreateOrderByRebalancing({
     const [ centavosUnitPrice, setCentavosUnitPrice ] = useState<string>("")
     const [ centavosFees, setCentavosFees ] = useState<string>("")
     const [ centavosTaxes, setCentavosTaxes ] = useState<string>("")
-    const [ operationType, setOperationType ] = useState<"Compra" | "Venda">(initialOperationType)
+    const [ operationType, setOperationType ] = useState<"Compra" | "Venda">(initialOperationType === "venda" ? "Venda" : "Compra")
     const [ assetType, setAssetType ] = useState<"Acao" | "Fii" | "Cripto">("Acao")
 
     const { mutate: createOrder } = useCreateOrder()
@@ -88,7 +92,7 @@ export function DialogCreateOrderByRebalancing({
             userId: userId,
             averagePrice: averagePrice
         }
-        createOrder(orderToCreate, {
+        createOrder({orderToCreate, token}, {
             onError: (errorCreateOrder) => {
                 showErrorToast(errorCreateOrder.message)
             },
@@ -99,6 +103,14 @@ export function DialogCreateOrderByRebalancing({
             }
         })
     }
+
+    useEffect(() => {
+        if (initialOperationType === "venda") {
+            setOperationType("Venda")
+        } else if (initialOperationType === "compra") {
+            setOperationType("Compra")
+        }
+    }, [initialOperationType])
 
     useFocusOnOpen(quantidadeInputRef, isCreateDialogOpen)
 
@@ -131,7 +143,7 @@ export function DialogCreateOrderByRebalancing({
                     <div className="bg-my-background-secondary p-4 rounded-lg grid grid-cols-3 gap-4">
                         <div className="flex flex-col gap-3">
                             <Label className="px-1 text-my-foreground-secondary">Ativo</Label>
-                            <div className="relative">
+                            <div className="relative ml-1 px-2.5 py-2 rounded-md select-none text-sm text-my-foreground bg-my-background cursor-no-drop">
                                 { !!!assetLogourl && <div className="absolute flex items-center bg-my-foreground/40 justify-center left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-my-foreground-secondary rounded-sm">
                                     <span className="material-symbols-outlined text-lime-base !text-[22px]">finance_mode</span>
                                 </div> }

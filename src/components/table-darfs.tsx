@@ -8,6 +8,8 @@ import { showErrorToast, showSuccesToast } from "@/utils/toasts";
 import { AlertDialogTrigger } from "./ui/alert-dialog";
 import { DialogDarf } from "./dialog-darf";
 import { formatPeriodoApuracaoToString } from "@/utils/formatters";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/auth.context";
 
 interface TableDarfsProps {
     darfs :DarfI[]
@@ -22,6 +24,9 @@ export function TableDarfs({
     //     "day_trade": "acute"
     // }
 
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token ?? ""
+
     const modalities = {
         "swing_trade": "Swing Trade",
         "day_trade": "Day Trade"
@@ -31,7 +36,7 @@ export function TableDarfs({
     const { mutate: cancelarPagamentoDarf } = useCancelPagamentoDarf()
 
     function handelDeleteDarf(id :string) {
-        deleteDarf(id, {
+        deleteDarf({id, token}, {
             onError: (errorDeleteDarf) => {
                 showErrorToast(errorDeleteDarf.message)
             },
@@ -42,7 +47,7 @@ export function TableDarfs({
     }
 
     function handlePagamentoDarf(id :string) {
-        cancelarPagamentoDarf(id, {
+        cancelarPagamentoDarf({id, token}, {
             onError: (errorUpdatedDarf) => {
                 showErrorToast(errorUpdatedDarf.message)
             },

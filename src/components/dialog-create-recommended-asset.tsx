@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { DisplayIcon } from "./display"
 import { Input } from "./ui/input"
@@ -16,6 +16,7 @@ import { useCreateRecommendedAsset } from "@/queries/recommendedAsset"
 import { Porcento } from "./moeda-percentual"
 import type { AtivoPlanejadoConsolidado } from "@/interfaces/ativoPlanejadoConsolidado.interface"
 import { MiniLoadingSpinner } from "./mini-loading-spinner"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface DialogRecommendedAssetProps {
     userId :string
@@ -30,6 +31,9 @@ export function DialogCreateRecommendedAsset({
     ativosPlanejadosConsolidados,
     myHeritage,
 } :DialogRecommendedAssetProps) {
+
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
 
     const [ isCreateDialogOpen, setIsCreateDialogOpen ] = useState(false)
 
@@ -103,7 +107,7 @@ export function DialogCreateRecommendedAsset({
             userId: userId
         }
 
-        createRecommendedAsset(recommendedAssetToCreate, {
+        createRecommendedAsset({recommendedAssetToCreate, token}, {
             onError: (errorCreateRecommendedAsset) => {
                 showErrorToast(errorCreateRecommendedAsset.message)
             },

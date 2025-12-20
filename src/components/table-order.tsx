@@ -8,8 +8,9 @@ import { DialogUpdateOrder } from "./dialog-update-order"
 import { TypeOperationIndicator } from "./type-operation_indicator"
 import { AlertDialogMessage } from "./alert-dialog"
 import { AlertDialogTrigger } from "./ui/alert-dialog"
-import { useEffect } from "react"
 import { AssetLogo } from "./asset-logo"
+import { useContext } from "react"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface TableOrdersProps {
     orderListFiltered :OrderPresenter[]
@@ -22,9 +23,13 @@ export function TableOrders({
 } :TableOrdersProps) {
 
     const { mutate: deleteOrder } = useDeleteOrder()
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
 
     function handelDeleteOrder(ordem :OrderPresenter) {
-        deleteOrder(ordem.id, {
+        const id = ordem.id
+        
+        deleteOrder({id, token}, {
             onError: (errorDeleteOrder) => {
                 showErrorToast(errorDeleteOrder.message)
             },
@@ -33,10 +38,6 @@ export function TableOrders({
             }
         })
     }
-
-    useEffect(()=> {
-        console.log(orderListFiltered)
-    }, [orderListFiltered])
 
     return(
         <Table>

@@ -25,12 +25,13 @@ export default function Impostos() {
     const { loginResponse } = useContext(AuthContext)
     const { tradeModality, setTradeModality } = useContext(SystemContext)
     const userId = loginResponse?.objetoResposta.id || ""
+    const token = loginResponse?.objetoResposta.token
 
     const [ selectedDate, setSelectedDate ] = useState<Date | undefined>(new Date())
     const selectedMonth = selectedDate ? selectedDate.getMonth() : undefined
     const selectedYear = selectedDate ? selectedDate.getFullYear() : undefined
     
-    const { data: taxesInfo, isLoading: isLoadingTaxesInfo, isError: isErrorTaxesInfo } = useTaxes(userId, selectedYear, selectedMonth, tradeModality)
+    const { data: taxesInfo, isLoading: isLoadingTaxesInfo, isError: isErrorTaxesInfo } = useTaxes(userId, selectedYear, selectedMonth, tradeModality, token)
     const { mutate: createDarf } = useCreateDarf()
 
     const receitaBrutaTotalEmCentavos = taxesInfo?.receitaBrutaTotalComVendaEmCentavos ?? 0
@@ -84,11 +85,11 @@ export default function Impostos() {
     ]
 
     const handleCreateDarf = () => {
-        if(!userId || !selectedYear || !selectedMonth || !tradeModality) {
+        if(!userId || !selectedYear || !selectedMonth || !tradeModality || !token) {
             throw new Error("Preencha todos os campos!")
         }
-
-        createDarf({userId, selectedYear, selectedMonth, tradeModality}, {
+        
+        createDarf({userId, selectedYear, selectedMonth, tradeModality, token}, {
             onSuccess: (darfCreated) => {
                 showSuccesToast(`DARF de ${modalities[darfCreated.modality]} para o período de apuração ${formatPeriodoApuracaoToString(darfCreated.periodoApuracao)} criada!`)
             },

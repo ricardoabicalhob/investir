@@ -3,10 +3,10 @@ import { assetKeys } from "./keys"
 import type { AssetPresenter } from "@/interfaces/asset.interface"
 import assetService from "@/services/assetService"
 
-export const useAssets = (userId :string) => {
+export const useAssets = (userId :string, token :string | undefined) => {
     return useQuery<AssetPresenter[]>({
         queryKey: assetKeys.list(),
-        queryFn: ()=> assetService.getAssets(userId),
+        queryFn: ()=> assetService.getAssets(userId, token),
         staleTime: 1000 * 60 * 5
     })
 }

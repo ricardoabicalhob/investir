@@ -3,22 +3,26 @@ import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/contexts/auth.context";
 import { getDarfs } from "@/queries/darf";
 import { filtarListaDeDarfs } from "@/utils/filters.utils";
+import { showErrorToast } from "@/utils/toasts";
 import { Search } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 export default function DarfsPage() {
 
     const { loginResponse } = useContext(AuthContext)
     const [ inputFilter, setInputFilter ] = useState<string>("")
     const userId = loginResponse?.objetoResposta.id || ""
+    const token = loginResponse?.objetoResposta.token
 
-    const { data: darfs } = getDarfs(userId)
+    const { data: darfs, isError: isErrorDarfs, error: errorDarfs } = getDarfs(userId, token)
 
     const darfListFiltered = filtarListaDeDarfs(inputFilter.toUpperCase(), darfs ?? [])
 
-    useEffect(()=> {
-        console.log(darfs)
-    }, [darfs])
+    if(isErrorDarfs) {
+        if(errorDarfs && errorDarfs.message) {
+            showErrorToast(errorDarfs.message ?? "Falha ao carregar as informações.")
+        }
+    }
 
     return(
         <div className="flex flex-1 w-full h-full text-my-foreground-secondary p-3">

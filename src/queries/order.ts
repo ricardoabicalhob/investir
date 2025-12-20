@@ -4,25 +4,28 @@ import { queryClient } from "@/services/queryClient"
 import type { OrderCreate, OrderPresenter, OrderToUpdate } from "@/interfaces/order.interface"
 import orderService from "@/services/orderService"
 
-export const useOrders = (userId :string) => {
+export const useOrders = (userId :string, token :string | undefined) => {
     return useQuery<OrderPresenter[]>({
         queryKey: orderKeys.list(),
-        queryFn: ()=> orderService.getOrders(userId),
+        queryFn: ()=> orderService.getOrders(userId, token),
         staleTime: 1000 * 60 * 5
     })
 }
 
-export const useOrdersListByMonth = (userId :string, year :number, month :number) => {
+export const useOrdersListByMonth = (userId :string, year :number, month :number, token :string | undefined) => {
     return useQuery<OrderPresenter[]>({
         queryKey: orderKeys.listByMonth(userId, year, month),
-        queryFn: () => orderService.listByMonth(userId, year, month),
+        queryFn: () => orderService.listByMonth(userId, year, month, token),
         staleTime: 1000 * 60 * 5
     })
 }
 
 export const useCreateOrder = () => {
-    return useMutation<OrderCreate | undefined , Error, OrderCreate>({
-        mutationFn: (newOrder :OrderCreate) => orderService.createOrder(newOrder),
+
+    type InputOrderCreate = { orderToCreate :OrderCreate, token :string | undefined }
+
+    return useMutation<OrderCreate | undefined , Error, InputOrderCreate>({
+        mutationFn: ({orderToCreate, token} :InputOrderCreate) => orderService.createOrder(orderToCreate, token),
         onSuccess: (createdOrder) => {
             queryClient.invalidateQueries({ queryKey: orderKeys.all })
             queryClient.invalidateQueries({ queryKey: assetKeys.all })
@@ -41,9 +44,12 @@ export const useCreateOrder = () => {
     })
 }
 
+
+type InputOrderDelete = { id :string, token :string | undefined }
+
 export const useDeleteOrder = () => {
-    return useMutation<OrderPresenter | undefined, Error, string>({
-        mutationFn: (id :string) => orderService.deleteOrder(id),
+    return useMutation<OrderPresenter | undefined, Error, InputOrderDelete>({
+        mutationFn: ({id, token} :InputOrderDelete) => orderService.deleteOrder(id, token),
         onSuccess: (deletedOrder) => {
             queryClient.invalidateQueries({ queryKey: orderKeys.all })
             queryClient.invalidateQueries({ queryKey: assetKeys.all })
@@ -62,9 +68,11 @@ export const useDeleteOrder = () => {
     })
 }
 
+type InputOrderUpdate = { orderToUpdate :OrderToUpdate, token :string | undefined }
+
 export const useUpdateOrder = () => {
-    return useMutation<OrderPresenter | undefined, Error, OrderToUpdate>({
-        mutationFn: (orderToUpdate :OrderToUpdate) => orderService.updateOrder(orderToUpdate),
+    return useMutation<OrderPresenter | undefined, Error, InputOrderUpdate>({
+        mutationFn: ({orderToUpdate, token} :InputOrderUpdate) => orderService.updateOrder(orderToUpdate, token),
         onSuccess: (updatedOrder) => {
             queryClient.invalidateQueries({ queryKey: orderKeys.all })
             queryClient.invalidateQueries({ queryKey: assetKeys.all })

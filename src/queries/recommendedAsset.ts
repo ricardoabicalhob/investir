@@ -12,9 +12,15 @@ export const useRecommendedAssets = (userId :string) => {
     })
 }
 
+
+type InputRecommendedAssetCreate = {
+    recommendedAssetToCreate :RecommendedAssetCreate,
+    token :string | undefined
+}
+
 export const useCreateRecommendedAsset = () => {
-    return useMutation<RecommendedAssetCreate | undefined , Error, RecommendedAssetCreate>({
-        mutationFn: (newRecommendedAsset :RecommendedAssetCreate) => recommendedAssetService.createRecommendedAsset(newRecommendedAsset),
+    return useMutation<RecommendedAssetCreate | undefined , Error, InputRecommendedAssetCreate>({
+        mutationFn: ({recommendedAssetToCreate, token} :InputRecommendedAssetCreate) => recommendedAssetService.createRecommendedAsset(recommendedAssetToCreate, token),
         onSuccess: (createdRecommendedAsset) => {
             queryClient.invalidateQueries({ queryKey: recommendedAssetKeys.all })
             queryClient.invalidateQueries({ queryKey: planningKeys.all })
@@ -29,9 +35,15 @@ export const useCreateRecommendedAsset = () => {
     })
 }
 
+
+type InputRecommendedAssetDelete = {
+    id :string,
+    token :string | undefined
+}
+
 export const useDeleteRecommendedAsset = () => {
-    return useMutation<string | undefined, Error, string>({
-        mutationFn: (id :string) => recommendedAssetService.deleteRecommendedAsset(id),
+    return useMutation<string | undefined, Error, InputRecommendedAssetDelete>({
+        mutationFn: ({id, token} :InputRecommendedAssetDelete) => recommendedAssetService.deleteRecommendedAsset(id, token),
         onSuccess: (deletedRecommendedAsset) => {
             queryClient.invalidateQueries({ queryKey: recommendedAssetKeys.all })
             queryClient.invalidateQueries({ queryKey: assetKeys.all })
@@ -48,9 +60,14 @@ export const useDeleteRecommendedAsset = () => {
     })
 }
 
+type InputRecommendedAssetUpdate = {
+    recommendedAssetToUpdate :RecommendedAssetUpdatePlannedPercentage,
+    token :string | undefined
+}
+
 export const useUpdateRecommendedAssetPlannedPercentage = () => {
-    return useMutation<RecommendedAssetUpdatePlannedPercentage | undefined, Error, RecommendedAssetUpdatePlannedPercentage>({
-        mutationFn: (recommendedAssetUpdatePlannedPercentage :RecommendedAssetUpdatePlannedPercentage) => recommendedAssetService.updatePlannedPercentage(recommendedAssetUpdatePlannedPercentage),
+    return useMutation<RecommendedAssetUpdatePlannedPercentage | undefined, Error, InputRecommendedAssetUpdate>({
+        mutationFn: ({recommendedAssetToUpdate, token} :InputRecommendedAssetUpdate) => recommendedAssetService.updatePlannedPercentage(recommendedAssetToUpdate, token),
         onSuccess: (updatedRecommendedAsset) => {
             queryClient.invalidateQueries({ queryKey: recommendedAssetKeys.all })
             queryClient.invalidateQueries({ queryKey: planningKeys.all })

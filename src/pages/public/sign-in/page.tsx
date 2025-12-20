@@ -172,6 +172,7 @@ export default function SignInPage() {
                                         className={` ${errors.password && '!border-red-destructive !focus:border-red-destructive'}`}
                                         {...register('password')}
                                         placeholder="Sua senha"
+                                        autoComplete="current-password"
                                     />
                                     { errors.password && <p className="text-red-destructive text-sm">{errors.password.message}</p> }
                                     

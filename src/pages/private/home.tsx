@@ -13,10 +13,11 @@ export default function HomePage() {
 
     const { loginResponse } = useContext(AuthContext)
         const userId = loginResponse?.objetoResposta.id || ""
+        const token = loginResponse?.objetoResposta.token
 
         const navigate = useNavigate()
 
-        const { data: portifolioInfo, isLoading: isLoadingPortifolioInfo, isError: isErrorPortifolioInfo } = usePortifolio(userId)
+        const { data: portifolioInfo, isLoading: isLoadingPortifolioInfo, isError: isErrorPortifolioInfo } = usePortifolio(userId, token)
 
         const posicaoAtualEmCentavos = portifolioInfo?.posicaoAtualDaCarteiraEmCentavos ?? 0
         const resultadoEmCentavos = portifolioInfo?.resultadoDaCarteiraEmCentavos ?? 0
@@ -24,7 +25,7 @@ export default function HomePage() {
         const resultadoEhNegativo = parseFloat(resultadoPercentual ?? "0") < 0
         const resultadoEhZero = parseFloat(resultadoPercentual ?? "0") === 0
 
-        const { data: planningInfo, isLoading: isLoadingPlanningInfo, isError: isErrorPlanningInfo } = usePlanning(userId, 0)
+        const { data: planningInfo, isLoading: isLoadingPlanningInfo, isError: isErrorPlanningInfo } = usePlanning(userId, 0, token)
 
         const isLoading = isLoadingPortifolioInfo || isLoadingPlanningInfo
         const isError = isErrorPortifolioInfo || isErrorPlanningInfo

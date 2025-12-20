@@ -15,16 +15,16 @@ import { useContext, useEffect, useState } from "react"
 export default function Rebalanceamento() {
     const { loginResponse } = useContext(AuthContext)
     const userId = loginResponse?.objetoResposta.id || ""
+    const token = loginResponse?.objetoResposta.token
 
     
     const [ centavosInvestment, setCentavosInvestment ] = useState<number>(0)
-    const [displayValue, setDisplayValue] = useState("")
-    const [queryInvestment, setQueryInvestment] = useState(0)
+    const [ displayValue, setDisplayValue ] = useState("")
+    const [ queryInvestment, setQueryInvestment ] = useState(0)
     
-    const { data: ordens, isLoading: isLoadingOrdens, isError: isErrorOrdens } = useOrders(userId)
+    const { data: ordens, isLoading: isLoadingOrdens, isError: isErrorOrdens } = useOrders(userId, token)
 
-    // const { mutate: fetchPlanning, data :planningSumary, isPending: isLoadingPlanning } = usePlanning()
-    const { data: planningSumary, isLoading: isLoadingPlanning } = usePlanning(userId, queryInvestment)
+    const { data: planningSumary, isLoading: isLoadingPlanning } = usePlanning(userId, queryInvestment, token)
 
     const patrimonio = planningSumary?.posicaoAtualDaCarteiraEmCentavos ?? 0
     const ativosPlanejadosConsolidados = planningSumary?.ativosPlanejadosConsolidados ?? []
@@ -64,14 +64,6 @@ export default function Rebalanceamento() {
             valorDeAjusteEmCentavos: 0,
             recomendacaoDe: "neutro"
         }
-
-    // const patrimonio = useMemo(()=> {
-    //     return obterPosicaoAtualDaCarteiraEmCentavos(
-    //         listaDeAtivosCotacaoBrapi || [],
-    //         ordens || [],
-    //         userId
-    //     )
-    // }, [listaDeAtivosCotacaoBrapi, ordens, userId])
 
     const isLoading = isLoadingOrdens || isLoadingPlanning
     const isError = isErrorOrdens

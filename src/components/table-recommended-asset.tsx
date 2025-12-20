@@ -9,6 +9,8 @@ import { TypeOperationIndicator } from "./type-operation_indicator"
 import { AlertDialogMessage } from "./alert-dialog"
 import { AlertDialogTrigger } from "./ui/alert-dialog"
 import { AssetLogo } from "./asset-logo"
+import { useContext } from "react"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface TableRecommendedAssetProps {
     userId :string
@@ -19,6 +21,9 @@ export function TableRecommendedAsset({
     userId,
     ativosPlanejadosConsolidados
 } :TableRecommendedAssetProps) {
+
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
 
     const { mutate: deleteRecommendedAsset } = useDeleteRecommendedAsset()
 
@@ -90,7 +95,7 @@ export function TableRecommendedAsset({
                                                                                 
                                         <DialogCreateOrderByRebalancing
                                             userId={userId}
-                                            initialOperationType={ativo.recomendacaoDe === "venda" ? "Venda" : "Compra"}
+                                            initialOperationType={ativo.recomendacaoDe}
                                             initialAssetSymbol={ativo.symbol}
                                             assetLogourl={ativo.logoUrl ?? ""}
                                         />
@@ -111,7 +116,8 @@ export function TableRecommendedAsset({
                                                 <p><span className="text-my-foreground-secondary font-bold">{ativo.symbol}</span> será excluído definitivamente do seu planejamento. Deseja continuar?</p>
                                             }
                                             action={()=> {
-                                                deleteRecommendedAsset(ativo.id, {
+                                                const id = ativo.id
+                                                deleteRecommendedAsset({id, token}, {
                                                     onError: (errorDeleteRecommendedAsset) => {
                                                         showErrorToast(`${ativo.symbol} - ${errorDeleteRecommendedAsset.message}`)
                                                     },

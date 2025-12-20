@@ -46,6 +46,5 @@ export const darfKeys = {
     create: (userId :string, selectedYear :number, selectedMonth :number, tradeModality :TradeModality) => [...darfKeys.all, 'create', userId, selectedYear, selectedMonth, tradeModality] as const,
     delete: (id :string) => [...darfKeys.all, "delete", id] as const,
     update: (darfToUpdate :DarfToUpdateI)=> [...darfKeys.all, "update", darfToUpdate.id] as const,
-    updatePagamento: (id :string)=> [...darfKeys.all, "updatePagamento", id] as const,
     cancelPagamento: (id :string)=> [...darfKeys.all, "cancelPagamento", id] as const
 }

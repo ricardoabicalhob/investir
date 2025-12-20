@@ -13,9 +13,10 @@ export default function MinhaCarteiraDeAtivos() {
 
     const { loginResponse } = useContext(AuthContext)
     const userId = loginResponse?.objetoResposta.id || ""
+    const token = loginResponse?.objetoResposta.token
 
-    const { data: ativos, isLoading: isLoadingAtivos, isError: isErrorAtivos, error: errorAtivos } = useAssets(userId)
-    const { data: portifolioInfo, isLoading: isLoadingPortifolioInfo, isError: isErrorPortifolioInfo, error: errorPortifolioInfo } = usePortifolio(userId)
+    const { data: ativos, isLoading: isLoadingAtivos, isError: isErrorAtivos, error: errorAtivos } = useAssets(userId, token)
+    const { data: portifolioInfo, isLoading: isLoadingPortifolioInfo, isError: isErrorPortifolioInfo, error: errorPortifolioInfo } = usePortifolio(userId, token)
 
     const posicaoAtualEmCentavos = portifolioInfo?.posicaoAtualDaCarteiraEmCentavos ?? 0
     const resultadoEmCentavos = portifolioInfo?.resultadoDaCarteiraEmCentavos ?? 0

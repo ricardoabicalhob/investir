@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useContext, useRef, useState } from "react"
 import Calendar24 from "./calendar-24"
 import ComboboxAssetType from "./combobox-asset-type"
 import ComboboxOperationType from "./combobox-operation-type"
@@ -20,7 +20,7 @@ import { useFocusOnOpen } from "@/hooks/useFocusOnOpen"
 import { useUpdateLogoOnSale } from "@/hooks/useUpdateLogoOnSale"
 import { useClearSymbolOnOperationChange } from "@/hooks/useClearSymbolOnOperationChange"
 import { formatCentavosToReal, parseInputToCentavos } from "@/utils/formatters"
-import { MoedaEmReal } from "./moeda-percentual"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface DialogCreateOrderProps {
     userId :string
@@ -31,6 +31,9 @@ export function DialogCreateOrder({
     userId,
     assetsForSale
 } :DialogCreateOrderProps) {
+
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
 
     const [ isCreateDialogOpen, setIsCreateDialogOpen ] = useState(false)
 
@@ -118,7 +121,7 @@ export function DialogCreateOrder({
             userId: userId,
             averagePrice: null
         }
-        createOrder(orderToCreate, {
+        createOrder({orderToCreate, token}, {
             onError: (errorCreateOrder) => {
                 showErrorToast(errorCreateOrder.message)
             },

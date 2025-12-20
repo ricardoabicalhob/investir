@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Button } from "./ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { Input } from "./ui/input"
@@ -7,6 +7,7 @@ import type { RecommendedAssetUpdatePlannedPercentage } from "@/interfaces/recom
 import { useUpdateRecommendedAssetPlannedPercentage } from "@/queries/recommendedAsset"
 import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import type { AtivoPlanejadoConsolidado } from "@/interfaces/ativoPlanejadoConsolidado.interface"
+import { AuthContext } from "@/contexts/auth.context"
 
 interface DialogUpdateRecommendedAssetProps {
     ativoPlanejado :AtivoPlanejadoConsolidado
@@ -15,6 +16,9 @@ interface DialogUpdateRecommendedAssetProps {
 export function DialogUpdateRecommendedAsset({ 
     ativoPlanejado,
 } :DialogUpdateRecommendedAssetProps) {
+
+    const { loginResponse } = useContext(AuthContext)
+    const token = loginResponse?.objetoResposta.token
 
     const [ isUpdateDialogOpen, setIsUpdateDialogOpen ] = useState(false)
 
@@ -37,7 +41,7 @@ export function DialogUpdateRecommendedAsset({
             plannedPercentage: plannedPercentageToUpdate * 1000
         }
 
-        updateRecommendedAssetPlannedPercentage(recommendedAssetToUpdate, {
+        updateRecommendedAssetPlannedPercentage({recommendedAssetToUpdate, token}, {
             onError: (errorUpdateRecommendedAssetPlannedPercentage) => {
                 showErrorToast(errorUpdateRecommendedAssetPlannedPercentage.message)
             },

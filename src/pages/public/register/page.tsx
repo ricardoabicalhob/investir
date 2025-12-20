@@ -186,6 +186,7 @@ export default function RegisterPage() {
                                     className={` ${errors.password && '!border-red-destructive !focus:border-red-destructive'}`}
                                     {...register('password')}
                                     placeholder="Deve ter no mínimo 8 caracteres"
+                                    autoComplete="current-password"
                                 />
                                 { errors.password && <p className="text-red-destructive text-sm">{errors.password.message}</p> }
                             </div>
@@ -197,6 +198,7 @@ export default function RegisterPage() {
                                     className={` ${errors.confirmPassword && '!border-red-destructive !focus:border-red-destructive'}`}
                                     {...register('confirmPassword')}
                                     placeholder="Deve ter no mínimo 8 caracteres"
+                                    autoComplete="current-password"
                                 />
                                 { errors.confirmPassword && <p className="text-red-destructive text-sm">{errors.confirmPassword.message}</p> }
                             </div>
