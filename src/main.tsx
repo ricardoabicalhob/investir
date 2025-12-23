@@ -26,6 +26,8 @@ import DarfsPage from './pages/private/darfs'
 import MinhaCarteiraDeAtivos from './pages/private/carteira'
 import Impostos from './pages/private/impostos'
 import MeusDividendos from './pages/private/dividendos'
+import Compensacoes from './pages/private/compensacoes'
+import ImpostosTabsLayout from './pages/private/imposts-tabs.layout'
 
 const basename = import.meta.env.BASE_URL
 
@@ -87,14 +89,23 @@ function App() {
             </ProtectedRoute>
           ),
           children: [
-            { index: true, element: <Navigate to={'/carteira'} replace /> },
+            { index: true, element: <Navigate to="/carteira" replace /> },
+
             { path: '/carteira', element: <HomePage /> },
             { path: '/carteira/portifolio', element: <MinhaCarteiraDeAtivos /> },
             { path: '/carteira/ordens', element: <MyOrders /> },
             { path: '/carteira/rebalanceamento', element: <Rebalanceamento /> },
-            { path: '/carteira/impostos', element: <Impostos /> },
-            { path: '/carteira/darfs', element: <DarfsPage /> },
-            { path: '/carteira/dividendos', element: <MeusDividendos /> }
+            { path: '/carteira/dividendos', element: <MeusDividendos /> },
+
+            // 👇 SOMENTE ESTE GRUPO USA O LAYOUT COM TOPBAR
+            {
+              element: <ImpostosTabsLayout />,
+              children: [
+                { path: '/carteira/impostos', element: <Impostos /> },
+                { path: '/carteira/darfs', element: <DarfsPage /> },
+                { path: '/carteira/compensacoes', element: <Compensacoes /> }
+              ]
+            }
           ],
         },
       ],

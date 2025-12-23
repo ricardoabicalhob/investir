@@ -1,6 +1,7 @@
 import type { DarfI } from "@/interfaces/darf.interface"
 import type { OrderPresenter } from "@/interfaces/order.interface"
 import { formatPeriodoApuracaoToString } from "./formatters"
+import type { CompensationResponse } from "@/interfaces/compensation.interface"
 
 export function filtarListaDeOrdens(str :string, arr :OrderPresenter[]) :OrderPresenter[]{
     if(!str) {
@@ -60,6 +61,34 @@ export function filtarListaDeDarfs(str :string, arr :DarfI[]) :DarfI[]{
             situacoes.some(s => s.includes(termo)) ||
             dueDate.includes(termo) ||
             paymentDate.includes(termo)
+        )
+    })
+    return arrFiltrado
+}
+
+export function filtrarListaDeCompensacoes(str :string, arr :CompensationResponse[]) :CompensationResponse[]{
+    if(!str) {
+        return arr
+    }
+
+    const modalities = {
+        "swing_trade": "SWING TRADE",
+        "day_trade": "DAY TRADE"
+    }
+
+    const termoBusca = str.toUpperCase()
+    const termoBuscaSplit = termoBusca
+        .split(",")
+        .map(termo => termo.trim())
+        .filter(termo => termo.length > 0)
+    
+    const arrFiltrado = arr.filter(item => {
+        const modality = modalities[item.modality]
+        const periodoApuracao = formatPeriodoApuracaoToString(item.periodoApuracao)
+
+        return termoBuscaSplit.every(termo =>
+            modality.includes(termo) ||
+            periodoApuracao.includes(termo)
         )
     })
     return arrFiltrado

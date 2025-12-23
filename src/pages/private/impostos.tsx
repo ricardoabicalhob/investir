@@ -7,9 +7,11 @@ import { TableTaxes } from "@/components/table-taxes"
 import { Button } from "@/components/ui/button"
 import { AuthContext } from "@/contexts/auth.context"
 import { SystemContext } from "@/contexts/system.context"
+import type { TradeModality } from "@/interfaces/orderBreakdown.interface"
+import type { ProcessFiscalResultResponse } from "@/interfaces/processFiscalResult.interface"
 import type { TaxesI } from "@/interfaces/taxes.interface"
 import { cn } from "@/lib/utils"
-import { useCreateDarf } from "@/queries/darf"
+import { useProcessFiscalResult } from "@/queries/processFiscalResult"
 import { useTaxes } from "@/queries/taxes"
 import { formatPeriodoApuracaoToString } from "@/utils/formatters"
 import { showErrorToast, showSuccesToast } from "@/utils/toasts"
@@ -31,7 +33,7 @@ export default function Impostos() {
     const selectedYear = selectedDate ? selectedDate.getFullYear() : undefined
     
     const { data: taxesInfo, isLoading: isLoadingTaxesInfo, isError: isErrorTaxesInfo } = useTaxes(userId, selectedYear, selectedMonth, tradeModality)
-    const { mutate: createDarf } = useCreateDarf()
+    const { mutate: executeProcessFiscalResult } = useProcessFiscalResult()
 
     const receitaBrutaTotalEmCentavos = taxesInfo?.receitaBrutaTotalComVendaEmCentavos ?? 0
     const custoAquisicaoTotalEmCentavos = taxesInfo?.custoDeAquisicaoTotalDosAtivosEmCentavos ?? 0
@@ -83,17 +85,22 @@ export default function Impostos() {
         }
     ]
 
-    const handleCreateDarf = () => {
+    const handleProcessFiscalResult = () => {
         if(!userId || !selectedYear || !selectedMonth || !tradeModality) {
             throw new Error("Preencha todos os campos!")
         }
         
-        createDarf({userId, selectedYear, selectedMonth, tradeModality}, {
-            onSuccess: (darfCreated) => {
-                showSuccesToast(`DARF de ${modalities[darfCreated.modality]} para o período de apuração ${formatPeriodoApuracaoToString(darfCreated.periodoApuracao)} criada!`)
+        executeProcessFiscalResult({userId, selectedYear, selectedMonth, tradeModality}, {
+            onSuccess: (processFiscalResult :ProcessFiscalResultResponse) => {
+                if(processFiscalResult.type === "DARF") {
+                    showSuccesToast(`DARF de ${ modalities[processFiscalResult.data.modality as TradeModality]} para o período de apuração ${formatPeriodoApuracaoToString(processFiscalResult.data.periodoApuracao)} criada!`)
+                }else if(processFiscalResult.type === "COMPENSATION") {
+                    showSuccesToast(`Compensação de ${ modalities[processFiscalResult.data.modality as TradeModality]} para o período de apuração ${formatPeriodoApuracaoToString(processFiscalResult.data.periodoApuracao)} criada!`)
+                }
+                
             },
-            onError: (errorCreateDarf) => {
-                showErrorToast(errorCreateDarf.message)
+            onError: (errorExecuteProcessFiscalResult) => {
+                showErrorToast(errorExecuteProcessFiscalResult.message)
             }
         })
     }
@@ -108,70 +115,72 @@ export default function Impostos() {
     return(
         <div className="flex gap-3 flex-1 w-full h-full text-my-foreground-secondary p-3">
             <LoadingSpinner isLoading={isLoading} message="Carregando ordens de venda..." size="xl" className="text-lime-base/50" />
+            
             <div className="flex flex-col gap-3">
 
-            <ComboboxTradeModality
-                tradeModality={tradeModality}
-                setTradeModality={setTradeModality}
-            />
+                <ComboboxTradeModality
+                    tradeModality={tradeModality}
+                    setTradeModality={setTradeModality}
+                />
 
-            <MonthYearPicker 
-                date={selectedDate} 
-                setDate={setSelectedDate} 
-                startYear={2020}
-            />
+                <MonthYearPicker 
+                    date={selectedDate} 
+                    setDate={setSelectedDate} 
+                    startYear={2020}
+                />
 
-            {
-                taxesInfo && displayCards.map(card => (
-                    <Display key={card.title}>
+                {
+                    taxesInfo && displayCards.map(card => (
+                        <Display key={card.title}>
+                            <DisplayHeader className="flex gap-2 items-center">
+                                {
+                                    card.icon &&
+                                        <DisplayItem className="flex items-center justify-center !py-2 w-6 h-6 bg-zinc-800 rounded-md">
+                                            <DisplayIcon className="!text-bold !text-xl text-center align-middle">{card.icon}</DisplayIcon>
+                                        </DisplayItem>    
+                                }     
+                                <DisplayTitle>{card.title}</DisplayTitle>
+                            </DisplayHeader>
+                            <DisplayBody>
+                                <DisplayContent>
+                                    <DisplayItem className={card.valueClassName}>
+                                        <MoedaEmReal centavos={card.valueInCentavos} />
+                                    </DisplayItem>
+                                </DisplayContent>
+                            </DisplayBody>
+                        </Display>
+                    ))
+                }
+                {
+                    ganhoCapitalTotalEmCentavos > 0 &&
+                    <Display>
                         <DisplayHeader className="flex gap-2 items-center">
-                            {
-                                card.icon &&
-                                    <DisplayItem className="flex items-center justify-center !py-2 w-6 h-6 bg-zinc-800 rounded-md">
-                                        <DisplayIcon className="!text-bold !text-xl text-center align-middle">{card.icon}</DisplayIcon>
-                                    </DisplayItem>    
-                            }     
-                            <DisplayTitle>{card.title}</DisplayTitle>
+                            <DisplayItem className="flex items-center justify-center !py-2 w-6 h-6 bg-zinc-800 rounded-md">
+                                <DisplayIcon className="!text-bold !text-xl text-center align-middle">payments</DisplayIcon>
+                            </DisplayItem>
+                            <DisplayTitle>IRRF (Imposto Retido na Fonte)</DisplayTitle>
                         </DisplayHeader>
                         <DisplayBody>
                             <DisplayContent>
-                                <DisplayItem className={card.valueClassName}>
-                                    <MoedaEmReal centavos={card.valueInCentavos} />
+                                <DisplayItem className="text-my-foreground !text-lg text-left">
+                                    <MoedaEmReal centavos={irrfSomadoEmCentavos} />
                                 </DisplayItem>
                             </DisplayContent>
                         </DisplayBody>
                     </Display>
-                ))
-            }
-            {
-                ganhoCapitalTotalEmCentavos > 0 &&
-                <Display>
-                    <DisplayHeader className="flex gap-2 items-center">
-                        <DisplayItem className="flex items-center justify-center !py-2 w-6 h-6 bg-zinc-800 rounded-md">
-                            <DisplayIcon className="!text-bold !text-xl text-center align-middle">payments</DisplayIcon>
-                        </DisplayItem>
-                        <DisplayTitle>IRRF (Imposto Retido na Fonte)</DisplayTitle>
-                    </DisplayHeader>
-                    <DisplayBody>
-                        <DisplayContent>
-                            <DisplayItem className="text-my-foreground !text-lg text-left">
-                                <MoedaEmReal centavos={irrfSomadoEmCentavos} />
-                            </DisplayItem>
-                        </DisplayContent>
-                    </DisplayBody>
-                </Display>
-            }
-            
-            <Button
-                id="gerar-darf"
-                variant="outline"
-                className={cn(
-                    "w-full justify-center focus:!ring-[1px] ml-0.5 text-my-foreground-secondary bg-my-background-secondary hover:bg-my-background-secondary hover:text-my-foreground-secondary border-0 cursor-pointer",
-                )}
-                onClick={handleCreateDarf}
-            >
-                Gerar DARF
-            </Button>
+                }
+                
+                <Button
+                    id="processar-resultado-fiscal"
+                    variant="outline"
+                    className={cn(
+                        "w-full justify-center focus:!ring-[1px] text-my-foreground-secondary bg-my-background-secondary hover:bg-my-background-secondary hover:text-my-foreground-secondary border-0 cursor-pointer",
+                    )}
+                    onClick={handleProcessFiscalResult}
+                >
+                    <span className="material-symbols-outlined">conveyor_belt</span>
+                    Processar resultado
+                </Button>
 
             </div>
             <div className="flex flex-col grow w-full overflow-y-auto overflow-x-hidden border-[#29292E] border rounded-md p-2 custom-scrollbar-div">             

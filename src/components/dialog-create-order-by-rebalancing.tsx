@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Calendar24 from "./calendar-24"
 import ComboboxAssetType from "./combobox-asset-type"
 import ComboboxOperationType from "./combobox-operation-type"
@@ -13,7 +13,6 @@ import { showErrorToast, showSuccesToast } from "@/utils/toasts"
 import { useCreateOrder } from "@/queries/order"
 import { useFocusOnOpen } from "@/hooks/useFocusOnOpen"
 import { formatCentavosToReal, parseInputToCentavos } from "@/utils/formatters"
-import { AuthContext } from "@/contexts/auth.context"
 
 interface DialogCreateOrderByRebalancingProps {
     userId :string
@@ -28,9 +27,6 @@ export function DialogCreateOrderByRebalancing({
     initialAssetSymbol,
     assetLogourl,
 } :DialogCreateOrderByRebalancingProps) {
-
-    const { loginResponse } = useContext(AuthContext)
-    const token = loginResponse?.objetoResposta.token
 
     const [ isCreateDialogOpen, setIsCreateDialogOpen ] = useState(false)
 
@@ -92,7 +88,7 @@ export function DialogCreateOrderByRebalancing({
             userId: userId,
             averagePrice: averagePrice
         }
-        createOrder({orderToCreate, token}, {
+        createOrder(orderToCreate, {
             onError: (errorCreateOrder) => {
                 showErrorToast(errorCreateOrder.message)
             },

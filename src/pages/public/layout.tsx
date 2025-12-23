@@ -1,5 +1,5 @@
 import { useState } from "react"
-import AppSidebar, { AppSidebarButton, AppSidebarGroupButtons, AppSidebarTrigger } from "../../components/app-sidebar"
+import AppSidebar, { AppSidebarButton, AppSidebarGroupButtons, AppSidebarTrigger } from "../../components/app-menu-sidebar"
 import { TooltipProvider } from "../../components/ui/tooltip"
 import AppTopbar from "../../components/app-topbar"
 import { Button } from "../../components/ui/button"

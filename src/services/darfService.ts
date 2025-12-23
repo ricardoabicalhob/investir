@@ -10,9 +10,21 @@ const darfService = {
 
             return response.data
         } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao consultar as DARFs'
+                )
             }
+
+            throw new Error('Erro inesperado')
         }
     },
 
@@ -27,9 +39,21 @@ const darfService = {
             })
             return response.data
         } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao criar DARF'
+                )
             }
+
+            throw new Error('Erro inesperado')
         }
     },
 
@@ -40,9 +64,21 @@ const darfService = {
 
             return response.data
         } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao excluir DARF'
+                )
             }
+
+            throw new Error('Erro inesperado')
         }
     },
 
@@ -53,9 +89,21 @@ const darfService = {
             
             return response.data as DarfI
         } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao atualizar DARF'
+                )
             }
+
+            throw new Error('Erro inesperado')
         }
     },
 
@@ -66,9 +114,21 @@ const darfService = {
             
             return response.data as DarfI
         } catch (error :unknown) {
-            if(error instanceof AxiosError) {
-                throw new Error(error.response?.data.error)
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao atualizar o registro de pagamento'
+                )
             }
+
+            throw new Error('Erro inesperado')
         }
     },
 

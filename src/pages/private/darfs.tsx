@@ -24,10 +24,10 @@ export default function DarfsPage() {
     }
 
     return(
-        <div className="flex flex-1 w-full h-full text-my-foreground-secondary p-3">
-            <div className="flex flex-col gap-3 flex-1 w-full min-h-[calc(100dvh-235px)] text-my-foreground-secondary">
+        <div className="flex flex-1 w-full h-full text-my-foreground-secondary">
+            <div className="flex flex-col flex-1 w-full min-h-[calc(100dvh-235px)] px-3 pb-3 text-my-foreground-secondary">
 
-                <div className="relative w-full">
+                <div className="relative w-full py-3">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-my-foreground-secondary opacity-60" />
                     <Input 
                         className="bg-my-background-secondary selection:bg-blue-500 text-my-foreground-secondary border border-[#29292E] focus:!ring-[1px] ml-0.5 pl-10 pr-4"
@@ -42,6 +42,7 @@ export default function DarfsPage() {
                     <TableDarfs
                         darfs={darfListFiltered ?? []}
                     />
+
                 </div>
 
             </div>

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import AppSidebar, { AppSidebarButton, AppSidebarGroupButtons, AppSidebarTrigger } from "../../components/app-sidebar"
+import AppSidebar, { AppSidebarButton, AppSidebarGroupButtons, AppSidebarTrigger } from "../../components/app-menu-sidebar"
 import { TooltipProvider } from "../../components/ui/tooltip"
 import AppTopbar from "../../components/app-topbar"
 import { useLocation, useNavigate } from "react-router"
@@ -39,8 +39,7 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
   const navigateToMyOrders = () => navigate('/carteira/ordens');
   const navigateToRebalanceamento = () => navigate('/carteira/rebalanceamento');
   const navigateToImpostos = () => navigate('/carteira/impostos');
-  const navigateToDarfs = () => navigate('/carteira/darfs');
-  // const navigateToMyDividends = () => navigate('/carteira/dividendos');
+  const navigateToMyDividends = () => navigate('/carteira/dividendos');
 
   return (
     <div className='flex flex-col w-full h-full bg-my-background overflow-y-auto custom-scrollbar'>
@@ -167,22 +166,17 @@ export default function LayoutConnected({ children }: { children? :React.ReactNo
                   <AppSidebarButton 
                     className="text-my-foreground" 
                     isExpanded={expandedSidebar}
-                    isSelected={location.pathname === '/carteira/impostos'}
+                    isSelected={
+                      location.pathname === '/carteira/impostos' || 
+                      location.pathname === '/carteira/darfs' ||
+                      location.pathname === '/carteira/compensacoes'
+                    }
                     colorIconWhenSelected={colorIconWhenSelected}
                     text="Imposto de renda" 
                     icon="pets" 
                     onClick={navigateToImpostos}
                   />
 
-                  <AppSidebarButton 
-                    className="text-my-foreground" 
-                    isExpanded={expandedSidebar}
-                    isSelected={location.pathname === '/carteira/darfs'}
-                    colorIconWhenSelected={colorIconWhenSelected}
-                    text="Minhas DARFs" 
-                    icon="stacks"  //receipt
-                    onClick={navigateToDarfs}
-                  />
                 </AppSidebarGroupButtons>
                 
               </AppSidebar>

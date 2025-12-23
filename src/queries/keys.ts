@@ -48,3 +48,15 @@ export const darfKeys = {
     update: (darfToUpdate :DarfToUpdateI)=> [...darfKeys.all, "update", darfToUpdate.id] as const,
     cancelPagamento: (id :string)=> [...darfKeys.all, "cancelPagamento", id] as const
 }
+
+export const processFiscalResultKeys = {
+    all: ["processFiscalResult"],
+    create: (userId :string, selectedYear :number, selectedMonth :number, tradeModality :TradeModality) => [...processFiscalResultKeys.all, 'create', userId, selectedYear, selectedMonth, tradeModality] as const,
+}
+
+export const compensationKeys = {
+    all: ["compensation"],
+    list: (userId :string) => [...compensationKeys.all, "listCompensations", userId],
+    getByUserIdAndYear: (userId :string, year :number) => [...compensationKeys.all, "listCompensationsByYear", userId, year],
+    delete: (id :string) => [...compensationKeys.all, "delete", id] as const,
+}
