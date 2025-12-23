@@ -2,7 +2,7 @@ import { YearPicker } from "@/components/calendar-year-picker"
 import { TableCompensations } from "@/components/table-compensations"
 import { Input } from "@/components/ui/input"
 import { AuthContext } from "@/contexts/auth.context"
-import { useCompensation, UseCompensationByYear } from "@/queries/compensation"
+import { UseCompensationByYear } from "@/queries/compensation"
 import { filtrarListaDeCompensacoes } from "@/utils/filters.utils"
 import { Search } from "lucide-react"
 import { useContext, useState } from "react"
@@ -15,7 +15,6 @@ export default function Compensacoes() {
 
     const userId = loginResponse?.objetoResposta.id ?? ""
 
-    // const { data: compensations } = useCompensation(userId)
     const { data: compensations } = UseCompensationByYear(userId, year)
     const compensationsListFiltered = filtrarListaDeCompensacoes(inputFilter.toUpperCase(), compensations ?? [])
 

@@ -43,6 +43,7 @@ export const planningKeys = {
 export const darfKeys = {
     all: ["darf"],
     list: (userId :string) => [...darfKeys.all, "listDarfs", userId],
+    getByUserIdAndYear: (userId :string, year :number) => [...darfKeys.all, "listDarfsByYear", userId, year],
     create: (userId :string, selectedYear :number, selectedMonth :number, tradeModality :TradeModality) => [...darfKeys.all, 'create', userId, selectedYear, selectedMonth, tradeModality] as const,
     delete: (id :string) => [...darfKeys.all, "delete", id] as const,
     update: (darfToUpdate :DarfToUpdateI)=> [...darfKeys.all, "update", darfToUpdate.id] as const,

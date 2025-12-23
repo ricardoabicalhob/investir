@@ -28,6 +28,30 @@ const darfService = {
         }
     },
 
+    getDarfsByYear: async (userId :string, year :number) => {
+        try {
+            const response = await api.get(`/darf/ano?userId=${userId}&year=${year}`)
+
+            return response.data
+        } catch (error :unknown) {
+            if (error instanceof AxiosError) {
+                const data = error.response?.data
+
+                if (typeof data === 'string') {
+                    throw new Error(data)
+                }
+
+                throw new Error(
+                    data?.message ||
+                    data?.error ||
+                    'Erro ao consultar as DARFs'
+                )
+            }
+
+            throw new Error('Erro inesperado')
+        }
+    },
+
     createDarf: async (userId :string, year :number, month :number, modality :TradeModality) => {
         if(!userId || !year || !month || !modality) { throw new Error("Esperado um userId (string), month (number), year (number) e modality(day_trade | swing_trade)") }
         try {

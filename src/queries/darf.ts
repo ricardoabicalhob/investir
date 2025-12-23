@@ -15,6 +15,14 @@ export const getDarfs = (userId :string) => {
     })
 }
 
+export const getDarfsByYear = (userId :string, year :number) => {
+    return useQuery<DarfI[]>({
+        queryKey: darfKeys.getByUserIdAndYear(userId, year),
+        queryFn: () => darfService.getDarfsByYear(userId, year),
+        staleTime: 1000 * 60 * 5
+    })
+}
+
 export const useCreateDarf = () => {
     return useMutation<DarfI , Error, InputInfo>({
         mutationFn: ({ userId, selectedYear, selectedMonth: month, tradeModality: modality } :InputInfo) => darfService.createDarf(userId, selectedYear, month, modality),
