@@ -63,7 +63,7 @@ Cada modalidade possui regras próprias de tributação, alíquotas e compensaç
 
 ---
 
-## 📷 Capturas de Tela (opcional)
+## 📷 Capturas de Tela
 
 ![Tela inicial](<./src/docs//images/Captura de tela 2025-11-30 015730.png>)
 ![Minha carteira](<./src/docs/images/Captura de tela 2025-11-30 015710.png>)
