@@ -101,7 +101,7 @@ export function DialogUpdateRecommendedAsset({
                     <DialogClose asChild>
                         <Button 
                             onClick={(e)=> {setIsUpdateDialogOpen(false); e.preventDefault()}}
-                            className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white" variant="outline">Cancelar</Button>
+                            className="transition-colors ease-in-out duration-200 !bg-lime-base hover:!bg-lime-base hover:enabled:!brightness-110 border-none cursor-pointer text-my-background-secondary font-bold" variant="outline">Cancelar</Button>
                     </DialogClose>
                     <Button 
                         className="bg-my-background-secondary text-my-foreground-secondary cursor-pointer" 

@@ -39,9 +39,14 @@ export function DialogUpdateDarf({
 
     const { mutate: updateDarf } = useUpdateDarf()
 
-    const handleChangeValorDoPrincipal = (e :React.ChangeEvent<HTMLInputElement>) => {
-        const centavos = parseInputToCentavos(e.target.value)
-        setCentavosValorDoPrincipal(centavos)
+    // const handleChangeValorDoPrincipal = (e :React.ChangeEvent<HTMLInputElement>) => {
+    //     const centavos = parseInputToCentavos(e.target.value)
+    //     setCentavosValorDoPrincipal(centavos)
+    // }
+
+    const handleChangeCodReceitaToUpdate = (e :React.ChangeEvent<HTMLInputElement>) => {
+        const valueStrToNumber = Number(e.target.value)
+        setCodReceitaToUpdate(valueStrToNumber)
     }
 
     const handleChangeValorDaMultaToUpdate = (e :React.ChangeEvent<HTMLInputElement>) => {
@@ -70,10 +75,10 @@ export function DialogUpdateDarf({
         setCentavosValorTotal(total.toString())
     }
 
-    const handleChangeValorTotal = (e :React.ChangeEvent<HTMLInputElement>) => {
-        const centavos = parseInputToCentavos(e.target.value)
-        setCentavosValorTotal(centavos)
-    }
+    // const handleChangeValorTotal = (e :React.ChangeEvent<HTMLInputElement>) => {
+    //     const centavos = parseInputToCentavos(e.target.value)
+    //     setCentavosValorTotal(centavos)
+    // }
 
 
 
@@ -142,16 +147,6 @@ export function DialogUpdateDarf({
                     <DialogTitle className="text-my-foreground-secondary">Editar DARF</DialogTitle>
                     <DialogDescription className="flex gap-3 items-center">
                         Faça alterações na sua DARF aqui. Clique em salvar quando terminar.
-                        {/* <img 
-                            src={logoUrl} 
-                            alt="" 
-                            className='rounded-sm w-10 h-10 justify-self-center bg-black 
-                            shadow-[0_0_30px_5px_rgba(255,255,255,0.4)]
-                            ring-0 ring-white/40
-                            ring-offset-[1px] ring-offset-[#303028]
-                            border border-white/20
-                            backdrop-blur-sm' /> */}
-                        
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -167,16 +162,30 @@ export function DialogUpdateDarf({
                             {/* Tipo */}
                             <div className="grid gap-2 text-my-foreground-secondary">
                                 <Label className="pl-1">Tipo</Label>
-                                <span className="text-sm px-3 py-1.5 rounded-md bg-my-background select-none">
+                                <span className="relative text-sm px-3 py-2 rounded-md bg-my-background select-none">
                                     {modality ? modalities[modality] : "-"}
+                                    <span className="absolute right-2 material-icons text-my-foreground-secondary" style={{fontSize: 20}}>lock</span>
                                 </span>
+                            </div>
+
+                            {/* Código da Receita */}
+                            <div className="grid gap-2 text-my-foreground-secondary">
+                                <Label htmlFor={`cod-receita-${darf.id}`} className="pl-1">Código da Receita</Label>
+                                <Input 
+                                    id={`cod-receita-${darf.id}`}
+                                    name="codReceita"
+                                    className="bg-my-background border-0 focus:!ring-[1px] ml-0.5"
+                                    value={codReceitaToUpdate}
+                                    onChange={handleChangeCodReceitaToUpdate}
+                                />
                             </div>
 
                             {/* Competência */}
                             <div className="grid gap-2 text-my-foreground-secondary">
                                 <Label className="pl-1">Período de apuração</Label>
-                                <span className="text-sm px-3 py-1.5 rounded-md bg-my-background select-none">
+                                <span className="relative text-sm px-3 py-2 rounded-md bg-my-background select-none">
                                     {formatPeriodoApuracaoToString(periodoApuracao ?? 0)}
+                                    <span className="absolute right-2 material-icons text-my-foreground-secondary" style={{fontSize: 20}}>lock</span>
                                 </span>
                             </div>
 
@@ -215,7 +224,11 @@ export function DialogUpdateDarf({
                             {/* Valor do principal */}
                             <div className="grid gap-2 text-my-foreground-secondary">
                                 <Label htmlFor={`principal-${darf.id}`} className="pl-1">Valor do principal</Label>
-                                <Input 
+                                <span className="relative text-sm px-3 py-2 rounded-md bg-my-background select-none">
+                                    {formatCentavosToReal(centavosValorDoPrincipal)}
+                                    <span className="absolute right-2 material-icons text-my-foreground-secondary" style={{fontSize: 20}}>lock</span>
+                                </span>
+                                {/* <Input 
                                     id={`principal-${darf.id}`}
                                     name="principal"
                                     disabled
@@ -223,7 +236,7 @@ export function DialogUpdateDarf({
                                     className="bg-my-background border-0 focus:!ring-[1px] ml-0.5"
                                     value={formatCentavosToReal(centavosValorDoPrincipal)}
                                     onChange={handleChangeValorDoPrincipal}
-                                />
+                                /> */}
                             </div>
 
                             {/* Valor da multa */}
@@ -263,8 +276,12 @@ export function DialogUpdateDarf({
 
                             {/* Total */}
                             <div className="grid gap-2 text-my-foreground-secondary">
-                                <Label htmlFor={`total-${darf.id}`} className="pl-1">Valor total</Label>
-                                <Input 
+                                <Label htmlFor={`total-${darf.id}`} className="pl-1 font-bold">Valor total</Label>
+                                <span className="relative text-sm px-3 py-2 rounded-md bg-my-background text-lime-base font-bold select-none">
+                                    {formatCentavosToReal(centavosValorTotal)}
+                                    <span className="absolute right-2 material-icons text-my-foreground-secondary" style={{fontSize: 20}}>lock</span>
+                                </span>
+                                {/* <Input 
                                     id={`total-${darf.id}`}
                                     name="total"
                                     disabled
@@ -272,7 +289,7 @@ export function DialogUpdateDarf({
                                     className="bg-my-background border-0 focus:!ring-[1px] ml-0.5"
                                     value={formatCentavosToReal(centavosValorTotal)}
                                     onChange={handleChangeValorTotal}
-                                />
+                                /> */}
                             </div>
                         </div>
                     </div>
@@ -280,7 +297,7 @@ export function DialogUpdateDarf({
 
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button onClick={(e)=> {setIsUpdateDialogOpen(false); e.preventDefault()}} className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white" variant="outline">Cancelar</Button>
+                        <Button onClick={(e)=> {setIsUpdateDialogOpen(false); e.preventDefault()}} className="transition-colors ease-in-out duration-200 !bg-lime-base hover:!bg-lime-base hover:enabled:!brightness-110 border-none cursor-pointer text-my-background-secondary font-bold" variant="outline">Cancelar</Button>
                     </DialogClose>
                     <Button className="bg-my-background-secondary text-my-foreground-secondary cursor-pointer" form={`form-update-order-${darf.id}`} type="submit">Salvar alterações</Button>
                 </DialogFooter>

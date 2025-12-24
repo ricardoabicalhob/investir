@@ -12,7 +12,7 @@ export default function ComboboxAssetsForSale({assetsForSale, assetForSale, setA
     const assets :Array<keyof typeof assetsForSale> = Object.keys(assetsForSale)
 
     return(
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
             <Label htmlFor="combobox-operation" className="px-1 text-my-foreground-secondary">
                 Ativo
             </Label>

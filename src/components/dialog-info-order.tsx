@@ -111,7 +111,7 @@ export function DialogInfoOrder({
                                 setIsInfoDialogOpen(false) 
                                 e.preventDefault()
                             }} 
-                            className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white focus:!ring-0" 
+                            className="transition-colors ease-in-out duration-200 !bg-lime-base hover:!bg-lime-base hover:enabled:!brightness-110 border-none cursor-pointer text-my-background-secondary font-bold focus:!ring-0" 
                             variant="outline"
                         >
                             Fechar

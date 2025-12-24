@@ -205,7 +205,7 @@ export default function RegisterPage() {
 
                             <button 
                                 type="submit" 
-                                className="relative inline-flex flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-lime-base hover:enabled:brightness-115 text-my-foreground-accent text-shadow-xs text-shadow-lime-base px-4 py-3 [&amp;_svg]:size-6 text-md leading-[1.5rem]"
+                                className="relative inline-flex flex-shrink-0 justify-center items-center gap-2 rounded transition-colors ease-in-out duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:select-none border-none cursor-pointer overflow-hidden bg-lime-base hover:enabled:brightness-115 text-my-background-secondary text-shadow-xs text-shadow-lime-base px-4 py-3 [&amp;_svg]:size-6 text-md leading-[1.5rem]"
                             >
                                 Cadastrar-se gratuitamente
                             </button>

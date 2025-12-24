@@ -10,7 +10,7 @@ export default function ComboboxOperationType({ operationType, setOperationType}
     const [ open, setOpen ] = useState(false)
 
     return(
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
             <Label htmlFor="combobox-operation" className="px-1 text-my-foreground-secondary">
                 Operação
             </Label>

@@ -162,7 +162,7 @@ export function DialogUpdateOrder({
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button onClick={(e)=> {setIsUpdateDialogOpen(false); e.preventDefault()}} className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white" variant="outline">Cancelar</Button>
+                        <Button onClick={(e)=> {setIsUpdateDialogOpen(false); e.preventDefault()}} className="transition-colors ease-in-out duration-200 bg-lime-base hover:bg-lime-base hover:enabled:!brightness-115 border-none cursor-pointer text-my-background-secondary font-bold" variant="outline">Cancelar</Button>
                     </DialogClose>
                     <Button className="bg-my-background-secondary text-my-foreground-secondary cursor-pointer" form={`form-update-order-${ordem.id}`} type="submit">Salvar alterações</Button>
                 </DialogFooter>

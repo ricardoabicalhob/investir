@@ -58,7 +58,7 @@ export function DialogDarf({
                     {
                         darf.paga &&
                         <div className="absolute bottom-6 right-6">
-                            <img src={imgPaga} className="w-[240px]"/>
+                            <img src={imgPaga} className="w-[180px]"/>
                         </div>
                     }
                     

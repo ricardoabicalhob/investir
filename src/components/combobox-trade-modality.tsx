@@ -16,7 +16,7 @@ export default function ComboboxTradeModality({ tradeModality, setTradeModality}
     }
 
     return(
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
             <Label htmlFor="combobox-trade-modality" className="pl-2 text-my-foreground-secondary">
                 Modalidade
             </Label>

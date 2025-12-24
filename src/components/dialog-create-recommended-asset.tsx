@@ -260,7 +260,7 @@ export function DialogCreateRecommendedAsset({
                             setIsCreateDialogOpen(false)
                             resetForm()
                         }} 
-                        className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white" 
+                        className="transition-colors ease-in-out duration-200 !bg-lime-base hover:!bg-lime-base hover:enabled:!brightness-110 border-none cursor-pointer text-my-background-secondary font-bold" 
                         variant="outline"
                     >
                         Cancelar

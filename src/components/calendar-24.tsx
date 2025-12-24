@@ -12,7 +12,7 @@ export default function Calendar24({label, date, setDate} :{label? :string, date
 
     return(
         <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
                 <Label htmlFor="date-picker" className="px-1 text-my-foreground-secondary">
                     { label }
                 </Label>

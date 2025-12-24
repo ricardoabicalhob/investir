@@ -10,7 +10,7 @@ export default function ComboboxAssetType({ assetType, setAssetType} :{assetType
     const [ open, setOpen ] = useState(false)
 
     return(
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
             <Label htmlFor="combobox-ativo" className="px-1 text-my-foreground-secondary">
                 Tipo de ativo
             </Label>

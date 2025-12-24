@@ -31,7 +31,7 @@ export function AlertDialogMessage({
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-                <AlertDialogCancel className="bg-lime-base hover:bg-lime-secondary border-none cursor-pointer text-white font-bold hover:text-white">Cancelar</AlertDialogCancel>
+                <AlertDialogCancel className="transition-colors ease-in-out duration-200 !bg-lime-base hover:!bg-lime-base hover:enabled:!brightness-110 border-none cursor-pointer text-my-background-secondary font-bold">Cancelar</AlertDialogCancel>
                 <AlertDialogAction className="bg-my-background-secondary text-my-foreground-secondary cursor-pointer" onClick={action}>Continuar</AlertDialogAction>
             </AlertDialogFooter>
         </AlertDialogContent>
